@@ -150,7 +150,7 @@ class MRUComponent extends React.Component {
     return (
       <React.Fragment>
         <div className='column'>
-          <h3 className='ui heading' style={{textAlign: 'center'}}>Velocidade x time</h3>
+          <h3 className='ui heading' style={{textAlign: 'center'}}>Velocidade x Tempo</h3>
           { this.renderChart(this.speedData(), this.getAxes('m/s'))}
         </div>
         <div className='column'>
