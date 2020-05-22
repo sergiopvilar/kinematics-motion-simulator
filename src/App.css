@@ -16,3 +16,7 @@ body {
   width: 55px!important;
   text-align: center;
 }
+
+.main-header {
+  margin-bottom: 50px;
+}

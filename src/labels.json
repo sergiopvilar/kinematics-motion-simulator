@@ -1,0 +1,42 @@
+{
+  "Português": {
+    "titulo": "Simulador de Gráficos do Estudo da Cinemática",
+    "resumo": [
+      "Este é um simulador que tem como objetivo principal o estudo do movimento retilíneo uniforme e do movimento retilíneo uniformemente variado com a demonstração simultânea de múltiplos objetos.",
+      "Usando o painel de <strong>Objetos</strong> abaixo é possível descrever os dados de movimento de múltiplos objetos, sendo possível inserir dados iniciais do movimento de um objeto clicando no botão <strong> Adicionar Objeto </strong> em azul."
+    ],
+    "por": "por",
+    "codigo_aberto": "Este projeto tem código aberto no",
+    "objeto": "Objeto",
+    "objetos": "Objetos",
+    "adicionar_objeto": "Adicionar Objeto",
+    "remover_objeto": "Remover Objeto",
+    "tempo_movimento": "Tempo do Movimento",
+    "graficos": "Gráficos",
+    "aceleracao": "Aceleração",
+    "velocidade_inicial": "Velocidade Inicial",
+    "posicao_inicial": "Posição Inicial",
+    "velocidade_tempo": "Velocidade x Tempo",
+    "posicao_tempo": "Posição x Tempo"
+  },
+  "English": {
+    "titulo": "Kinematics Study Charts Simulator",
+    "resumo": [
+      "Este é um simulador que tem como objetivo principal o estudo do movimento retilíneo uniforme e do movimento retilíneo uniformemente variado com a demonstração simultânea de múltiplos objetos.",
+      "Usando o painel de <strong>Objetos</strong> abaixo é possível descrever os dados de movimento de múltiplos objetos, sendo possível inserir dados iniciais do movimento de um objeto clicando no botão <strong> Adicionar Objeto </strong> em azul."
+    ],
+    "por": "by",
+    "codigo_aberto": "This project has open source code at",
+    "objeto": "Object",
+    "objetos": "Objects",
+    "adicionar_objeto": "Add Object",
+    "remover_objeto": "Remove Object",
+    "tempo_movimento": "Movment Time",
+    "graficos": "Charts",
+    "aceleracao": "Acceleration",
+    "velocidade_inicial": "Initial Speed",
+    "posicao_inicial": "Initial Position",
+    "velocidade_tempo": "Speed x Time",
+    "posicao_tempo": "Speed x Time"
+  }
+}
