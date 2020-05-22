@@ -21,8 +21,8 @@ class MRUComponent extends Translatable {
       <React.Fragment>
         <div className='container main-header'>
           <h1 className='ui dividing header'>{this.labels.titulo}</h1>
-          { this.labels.resumo.map((resumo) => {
-            return <p dangerouslySetInnerHTML={{__html: resumo}}></p>
+          { this.labels.resumo.map((resumo, index) => {
+            return <p key={index} dangerouslySetInnerHTML={{__html: resumo}}></p>
           }) }
         </div>
         <Dropdown
@@ -31,12 +31,10 @@ class MRUComponent extends Translatable {
           floating
           labeled
           icon='world'
+          id='language-switch'
           options={this.languageOptions()}
           text={this.state.language}
-          onChange={(e, obj) => {
-            console.log(obj)
-            this.setState({language: obj.value})
-          }}
+          onChange={(e, obj) => this.setState({language: obj.value})}
         />
         <div className='container'>
           <ObjectForm

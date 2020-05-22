@@ -22,8 +22,8 @@
   "English": {
     "titulo": "Kinematics Study Charts Simulator",
     "resumo": [
-      "Este é um simulador que tem como objetivo principal o estudo do movimento retilíneo uniforme e do movimento retilíneo uniformemente variado com a demonstração simultânea de múltiplos objetos.",
-      "Usando o painel de <strong>Objetos</strong> abaixo é possível descrever os dados de movimento de múltiplos objetos, sendo possível inserir dados iniciais do movimento de um objeto clicando no botão <strong> Adicionar Objeto </strong> em azul."
+      "This simulator has as main goal the study of uniform rectilinear motion and uniformly accelerated rectilinear motion with demonstration of multiple objects.",
+      "It is possible to describe the motion of multiple objects using the <strong>Objetcs</strong> below, being possible to insert initial motion data of an object clicking in the <strong>Add Object</strong> blue button."
     ],
     "por": "by",
     "codigo_aberto": "This project has open source code at",
@@ -31,7 +31,7 @@
     "objetos": "Objects",
     "adicionar_objeto": "Add Object",
     "remover_objeto": "Remove Object",
-    "tempo_movimento": "Movment Time",
+    "tempo_movimento": "Motion Time",
     "graficos": "Charts",
     "aceleracao": "Acceleration",
     "velocidade_inicial": "Initial Speed",
