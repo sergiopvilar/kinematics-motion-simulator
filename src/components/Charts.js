@@ -20,6 +20,14 @@ export default class Charts extends Translatable {
     ]
   }
 
+  isDataValid() {
+    const invalids = this.props.objects.filter((object) => {
+      return isNaN(parseInt(object.acceleration)) || isNaN(parseInt(object.startSpeed)) || isNaN(parseInt(object.startPosition))
+    })
+    
+    return invalids.length === 0
+  }
+
   finalPositionNoAcceleration(startPosition, velocidade, time) {
     return parseInt(startPosition, 10) + (parseInt(velocidade, 10) * time)
   }
@@ -87,6 +95,11 @@ export default class Charts extends Translatable {
 
   renderResult() {
     if (!this.getTimes()) return
+
+    if(!this.isDataValid()) return (
+      <div className='column'>
+    <div className='ui message'>{this.labels.dados_vazios}</div></div>
+    )
 
     return (
       <React.Fragment>

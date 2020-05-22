@@ -6,12 +6,16 @@ export default class ObjectForm extends Translatable {
   constructor(props) {
     super(props)
     this.state = {
-      objects: [this.newObject(0, props.language)]
+      objects: []
     }
   }
 
   updateState(obj) {
     this.props.onChange(obj)
+  }
+
+  componentDidMount() {
+    this.updateState({ objects: [this.newObject(0)] })
   }
 
   static getDerivedStateFromProps(props) {
