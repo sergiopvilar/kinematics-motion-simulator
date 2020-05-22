@@ -14,7 +14,7 @@ export default class ObjectForm extends Translatable {
     this.props.onChange(obj)
   }
 
-  getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps(props) {
     return { objects: props.objects }
   }
 
