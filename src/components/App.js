@@ -10,7 +10,8 @@ class MRUComponent extends Translatable {
   constructor(props) {
     super(props)
     this.state = {
-      movementTime: 10,
+      motionTime: 10,
+      motionInterval: 1,
       language: props.language,
       objects: []
     }
@@ -45,9 +46,10 @@ class MRUComponent extends Translatable {
           <div className='movimento'>
             <Charts
               objects={this.state.objects}
-              movementTime={this.state.movementTime}
+              motionTime={this.state.motionTime}
+              motionInterval={this.state.motionInterval}
               language={this.state.language}
-              onChange={(movementTime) => this.setState({movementTime: movementTime})}
+              onChange={(state) => this.setState(state)}
             />
           </div>
         </div>

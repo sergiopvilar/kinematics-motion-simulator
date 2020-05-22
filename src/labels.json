@@ -6,6 +6,7 @@
       "Usando o painel de <strong>Objetos</strong> abaixo é possível descrever os dados de movimento de múltiplos objetos, sendo possível inserir dados iniciais do movimento de um objeto clicando no botão <strong> Adicionar Objeto </strong> em azul."
     ],
     "por": "por",
+    "em": "em",
     "codigo_aberto": "Este projeto tem código aberto no",
     "objeto": "Objeto",
     "objetos": "Objetos",
@@ -18,7 +19,8 @@
     "posicao_inicial": "Posição Inicial",
     "velocidade_tempo": "Velocidade x Tempo",
     "posicao_tempo": "Posição x Tempo",
-    "dados_vazios": "Os gráficos aparecerão quando o simulador tiver informações suficientes."
+    "dados_vazios": "Os gráficos aparecerão quando o simulador tiver informações suficientes.",
+    "intervalo_movimento": "Intervalo do movimento"
   },
   "English": {
     "titulo": "Kinematics Study Charts Simulator",
@@ -27,6 +29,7 @@
       "It is possible to describe the motion of multiple objects using the <strong>Objetcs</strong> below, being possible to insert initial motion data of an object clicking in the <strong>Add Object</strong> blue button."
     ],
     "por": "by",
+    "em": "in",
     "codigo_aberto": "This project has open source code at",
     "objeto": "Object",
     "objetos": "Objects",
@@ -38,7 +41,8 @@
     "velocidade_inicial": "Initial Speed",
     "posicao_inicial": "Initial Position",
     "velocidade_tempo": "Speed x Time",
-    "posicao_tempo": "Speed x Time",
-    "dados_vazios": "Charts will show up when the simulador have enough data."
+    "posicao_tempo": "Position x Time",
+    "dados_vazios": "Charts will show up when the simulador have enough data.",
+    "intervalo_movimento": "Motion Interval"
   }
 }

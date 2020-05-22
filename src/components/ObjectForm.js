@@ -25,9 +25,9 @@ export default class ObjectForm extends Translatable {
   newObject(length = this.state.objects.length, language = this.props.language) {
     return {
       nome: `${this.getLabel(language, 'objeto')} ${length + 1}`,
-      acceleration: '',
-      startSpeed: '',
-      startPosition: ''
+      acceleration: 10,
+      startSpeed: 9,
+      startPosition: 0
     }
   }
 

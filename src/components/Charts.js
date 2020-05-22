@@ -1,24 +1,9 @@
 import React from 'react';
-import { Chart } from 'react-charts';
+import CanvasJSChart from '../vendor/canvasjs.react.js'
 import Translatable from './Translatable.js'
+import ChartConfiguration from './ChartConfiguration.js'
 
 export default class Charts extends Translatable {
-
-   getAxes(unidade) {
-    return [{
-        primary: true,
-        position: 'bottom',
-        format: d => `${d}s`,
-        type: 'linear',
-        show: true
-      },
-      {
-        position: 'left',
-        format: d => `${d}${unidade}`,
-        type: 'linear'
-      }
-    ]
-  }
 
   isDataValid() {
     const invalids = this.props.objects.filter((object) => {
@@ -55,41 +40,69 @@ export default class Charts extends Translatable {
     return this.finalPosition(object.startPosition, time, object.acceleration, object.startSpeed)
   }
 
+  getAxis(unity) {
+    return {
+      axisX: {
+        suffix: 's',
+        minimum: 0,
+        interval: parseInt(this.props.motionInterval, 10)
+      },
+      axisY: {
+        suffix: unity
+      },
+    }
+  }
+
   speedData() {
-    return this.props.objects.map((object, index) => {
-      return {
-        label: object.nome,
-        data: this.getTimes().map((time) => {
-          return {x: time, y: this.getSpeed(object, time)}
-        })
-      }
-    })
+    return Object.assign({
+      title: {
+        text: this.labels.velocidade_tempo
+      },
+      data: this.props.objects.map((object, index) => {
+        return {
+          type: 'line',
+          toolTipContent: `${object.nome} ${this.labels.em} {x}s: {y}m/s`,
+          dataPoints: this.getTimes().map((time) => {
+            return {x: time, y: this.getSpeed(object, time) }
+          })
+        }
+      })
+    }, this.getAxis('m/2'))
   }
 
   positionData() {
-    return this.props.objects.map((object, index) => {
-      return {
-        label: object.nome,
-        data: this.getTimes().map((time) => {
-          return {x: time, y: this.getPosition(object, time)}
-        })
-      }
-    })
+    return Object.assign({
+      title: {
+        text: this.labels.posicao_tempo
+      },
+      data: this.props.objects.map((object, index) => {
+        return {
+          type: 'line',
+          toolTipContent: `${object.nome} ${this.labels.em} {x}s: {y}m`,
+          dataPoints: this.getTimes().map((time) => {
+            return {x: time, y: this.getPosition(object, time) }
+          })
+        }
+      })
+    }, this.getAxis('m'))
   }
 
   getTimes() {
-    const time = parseInt(this.props.movementTime, 10)
+    let times = [0]
+      , counter = 0
+      , iterations = Math.round(parseInt(this.props.motionTime, 10)/parseInt(this.props.motionInterval, 10))
+    
+    for(var i = 0; i < iterations; i++){
+      counter = counter + parseInt(this.props.motionInterval, 10)
+      times.push(counter)
+    }
 
-    if (time === 0) return
-    return Array.from({ length: time }, (v, k) => k + 1)
+    return times
   }
 
-  renderChart(data, axes) {
-    let size = this.props.width < 500 ? this.props.width : 500
+  renderChart(data) {
     return (
-      <div style={{ width: `${size}px`, height: `${size}px`, margin: '0 auto' }}>
-        <Chart data={data} axes={axes} tooltip />
-      </div>
+      <CanvasJSChart options={data} />
     )
   }
 
@@ -104,12 +117,10 @@ export default class Charts extends Translatable {
     return (
       <React.Fragment>
         <div className='column'>
-          <h3 className='ui heading' style={{textAlign: 'center'}}>{this.labels.velocidade_tempo}</h3>
-          { this.renderChart(this.speedData(), this.getAxes('m/s'))}
+          { this.renderChart(this.speedData())}
         </div>
         <div className='column'>
-          <h3 className='ui heading' style={{textAlign: 'center'}}>{this.labels.posicao_tempo}</h3>
-          { this.renderChart(this.positionData(), this.getAxes('m'))}
+          { this.renderChart(this.positionData())}
         </div>
       </React.Fragment>
     )
@@ -119,16 +130,12 @@ export default class Charts extends Translatable {
     return (
       <React.Fragment>
         <h2 className='ui dividing header'>{this.labels.graficos}</h2>
-        <div className='actions ui form'>
-          <div className='inline field' style={{textAlign: 'center'}}>
-            <label>{this.labels.tempo_movimento}:</label>
-            <input
-              type='number'
-              value={this.props.movementTime}
-              onChange={(e) => this.props.onChange(e.target.value)}
-            />
-          </div>
-        </div>
+        <ChartConfiguration
+          motionInterval={this.props.motionInterval}
+          motionTime={this.props.motionTime}
+          onChange={this.props.onChange}
+          language={this.props.language}
+        />
         <div className='movimentoResult ui stackable equal width grid' style={{ margin: '5px 0 0 0' }}>
           <div className='row'>
             {this.renderResult()}
