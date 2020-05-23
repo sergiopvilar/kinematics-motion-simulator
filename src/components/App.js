@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dropdown } from 'semantic-ui-react'
 import Translatable from './Translatable.js'
 import ObjectForm from './ObjectForm.js'
 import Charts from './Charts.js'
@@ -26,17 +25,7 @@ class MRUComponent extends Translatable {
             return <p key={index} dangerouslySetInnerHTML={{__html: resumo}}></p>
           }) }
         </div>
-        <Dropdown
-          button
-          className='icon'
-          floating
-          labeled
-          icon='world'
-          id='language-switch'
-          options={this.languageOptions()}
-          text={this.state.language}
-          onChange={(e, obj) => this.setState({language: obj.value})}
-        />
+        { this.renderLanguageSwitch() }
         <div className='container'>
           <ObjectForm
             language={this.state.language}
