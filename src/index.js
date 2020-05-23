@@ -4,9 +4,11 @@ import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
+const defaultLanguage = window.location.hash !== '' ? decodeURI(window.location.hash).replace('#', '') : 'Português'
+
 ReactDOM.render(
   <React.StrictMode>
-    <App width={window.innerWidth} language='Português' />
+    <App width={window.innerWidth} language={defaultLanguage} />
   </React.StrictMode>,
   document.getElementById('root')
 );
