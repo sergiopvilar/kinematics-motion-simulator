@@ -25,7 +25,7 @@ export default class ObjectForm extends Translatable {
 
   newObject(length = this.state.objects.length, language = this.props.language) {
     return {
-      nome: `${this.getLabel(language, 'objeto')} ${length + 1}`,
+      nome: `${length + 1}`,
       acceleration: '',
       startSpeed: '',
       startPosition: '',
@@ -90,7 +90,7 @@ export default class ObjectForm extends Translatable {
             {this.state.objects.map((object, index) => {
               return (
                 <div key={index} className='objectConfiguration column'>
-                  <h4 className='ui header'>{object.nome}</h4>
+                  <h4 className='ui header'>{this.labels.objeto} {object.nome}</h4>
                   <div className='ui form'>
                   {this.renderFields(object, index)}
                   <button onClick={() => this.removeObject(index)} className="ui small red button">{this.labels.remover_objeto}</button>

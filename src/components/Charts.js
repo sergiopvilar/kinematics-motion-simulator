@@ -42,7 +42,7 @@ export default class Charts extends Translatable {
 
   getAxis(object) {
     return {
-      label: object.nome,
+      label: `${this.labels.objeto} ${object.nome}`,
       fill: false,
       borderColor: object.color,
       pointBackgroundColor: object.color,
