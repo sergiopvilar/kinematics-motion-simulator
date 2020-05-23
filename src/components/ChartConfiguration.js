@@ -41,25 +41,41 @@ export default class ChartConfiguration extends Translatable {
     ]
   }
 
+  timeControlUnity() {
+    if(this.props.timeUnity === 'adaptive') return 's'
+    return this.props.timeUnity
+  }
+
   render() {
-    console.log(this.props.speedUnity)
     return (
       <div className='actions ui form stackable equal width grid grid'>
-        <div className='field column'>
-          <label>{this.labels.tempo_movimento}:</label>
-          <input
-            type='number'
-            value={this.props.motionTime}
-            min='1'
-            onChange={(e) => this.update('motionTime', e.target.value)}
-          />
-          <label>{this.labels.intervalo_movimento}:</label>
-          <input
-            type='number'
-            value={this.props.motionInterval}
-            min='1'
-            onChange={(e) => this.update('motionInterval', e.target.value)}
-          />
+        <div className='column'>
+          <div className='inline field'>
+          <label style={{ width: '150px' }}>{this.labels.tempo_movimento}:</label>
+            <div className='ui right labeled input mruField'>
+              <input
+                type='number'
+                value={this.props.motionTime}
+                min='1'
+                onChange={(e) => this.update('motionTime', e.target.value)}
+              />
+              <div className="ui basic label">{this.timeControlUnity()}</div>
+            </div>
+            
+          </div>
+
+          <div className='inline field'>
+          <label style={{ width: '150px' }}>{this.labels.intervalo_movimento}:</label>
+            <div className='ui right labeled input mruField'>
+              <input
+                type='number'
+                value={this.props.motionInterval}
+                min='1'
+                onChange={(e) => this.update('motionInterval', e.target.value)}
+              />
+              <div className="ui basic label">{this.timeControlUnity()}</div>
+            </div>
+          </div>
         </div>
         <div className='column field'>
           <label>{this.labels.mostrar_no_grafico}:</label>

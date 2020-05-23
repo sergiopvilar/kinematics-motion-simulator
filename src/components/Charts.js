@@ -14,10 +14,12 @@ export default class Charts extends Translatable {
   }
 
   finalPositionNoAcceleration(startPosition, velocidade, time) {
+    time = this.timeInUnity(time)
     return parseFloat(startPosition, 10) + (parseFloat(velocidade, 10) * time)
   }
 
   finalPosition(startPosition, time, acceleration, startSpeed) {
+    time = this.timeInUnity(time)
     let base = parseFloat(startPosition, 10) + parseFloat(startSpeed, 10) * time
 
     if (acceleration > 0)
@@ -30,11 +32,14 @@ export default class Charts extends Translatable {
   }
 
   getSpeed(object, time) {
+    time = this.timeInUnity(time)
     if (!this.hasAcceleration(object.acceleration)) return parseFloat(object.startSpeed, 10)
     return parseFloat(object.startSpeed, 10) + (parseFloat(object.acceleration, 10) * time)
   }
 
   getPosition(object, time) {
+    time = this.timeInUnity(time)
+
     if (!this.hasAcceleration(object.acceleration))
       return this.finalPositionNoAcceleration(object.startPosition, object.startSpeed, time)
     return this.finalPosition(object.startPosition, time, object.acceleration, object.startSpeed)
@@ -85,13 +90,20 @@ export default class Charts extends Translatable {
     }
   }
 
+  timeInUnity(time) {
+    if(this.props.timeUnity === 'min') return time * 60
+    if(this.props.timeUnity === 'h') return time * 3600
+
+    return time
+  }
+
   getTimes() {
     let times = [0]
       , counter = 0
-      , iterations = Math.round(parseInt(this.props.motionTime, 10)/parseInt(this.props.motionInterval, 10))
-    
+      , iterations = Math.round(this.timeInUnity(parseInt(this.props.motionTime, 10))/this.timeInUnity(parseInt(this.props.motionInterval, 10)))
+
     for(var i = 0; i < iterations; i++){
-      counter = counter + parseInt(this.props.motionInterval, 10)
+      counter = counter + this.timeInUnity(parseInt(this.props.motionInterval, 10))
       times.push(counter)
     }
 
