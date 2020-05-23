@@ -16,7 +16,14 @@ class MRUComponent extends Translatable {
     }
   }
 
-  render() {
+  toggleObject(index, state) {
+    let objects = this.state.objects
+    objects[index].enabled = state
+
+    this.setState({objects: objects})
+  }
+
+  renderHeader() {
     return (
       <React.Fragment>
         <div className='container main-header'>
@@ -26,6 +33,14 @@ class MRUComponent extends Translatable {
           }) }
         </div>
         { this.renderLanguageSwitch() }
+      </React.Fragment>
+    )
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        { this.renderHeader() }
         <div className='container'>
           <ObjectForm
             language={this.state.language}
@@ -42,6 +57,7 @@ class MRUComponent extends Translatable {
               spaceUnity={'m'}
               speedUnity={'m/s'}
               onChange={(state) => this.setState(state)}
+              toggleObject={this.toggleObject.bind(this)}
             />
           </div>
         </div>

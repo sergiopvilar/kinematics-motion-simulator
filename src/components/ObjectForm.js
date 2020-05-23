@@ -23,13 +23,24 @@ export default class ObjectForm extends Translatable {
     return { objects: props.objects }
   }
 
+  getRandomColor() {
+    const currentColors = this.state.objects.map((obj) => obj.color)
+    let random = RandomColor({luminosity: 'dark'})
+
+    while(currentColors.indexOf(random) > 0)
+      random = RandomColor({luminosity: 'dark'})
+    
+    return random
+  }
+
   newObject(length = this.state.objects.length, language = this.props.language) {
     return {
       nome: `${length + 1}`,
       acceleration: '',
       startSpeed: '',
       startPosition: '',
-      color: RandomColor({luminosity: 'dark'})
+      color: RandomColor({luminosity: 'dark'}),
+      enabled: true
     }
   }
 

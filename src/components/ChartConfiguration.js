@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import { Checkbox } from 'semantic-ui-react'
 import Translatable from './Translatable.js'
 
 export default class ChartConfiguration extends Translatable {
@@ -30,6 +31,22 @@ export default class ChartConfiguration extends Translatable {
             value={this.props.motionInterval}
             onChange={(e) => this.update('motionInterval', e.target.value)}
           />
+        </div>
+        <div className='column field'>
+          <label>{this.labels.mostrar_no_grafico}:</label>
+          <ul>
+          {this.props.objects.map((object, index) => {
+            return (
+              <li>
+                <Checkbox
+                  label={`${this.labels.objeto} ${object.nome}`}
+                  defaultChecked={object.enabled}
+                  onChange={() => this.props.toggleObject(index, !object.enabled)}
+                />
+              </li>
+            )
+          })}
+          </ul>
         </div>
       </div>
     )

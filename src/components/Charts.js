@@ -50,13 +50,17 @@ export default class Charts extends Translatable {
     }
   }
 
+  getAvailableObjects() {
+    return this.props.objects.filter((obj) => obj.enabled)
+  }
+
   speedData() {
 
     const labels = this.getTimes().map((t) => `${t}${this.props.timeUnity}`)
 
     return {
       labels: labels,
-      datasets: this.props.objects.map((object) => {
+      datasets: this.getAvailableObjects().map((object) => {
         return Object.assign(this.getAxis(object), {
           data: this.getTimes().map((time) => {
             return {x: time, y: this.getSpeed(object, time) }
@@ -72,7 +76,7 @@ export default class Charts extends Translatable {
     return {
       title: { text: this.labels.posicao_tempo, display: true },
       labels: labels,
-      datasets: this.props.objects.map((object) => {
+      datasets: this.getAvailableObjects().map((object) => {
         return Object.assign(this.getAxis(object), {
           data: this.getTimes().map((time) => {
             return {x: time, y: this.getPosition(object, time) }
@@ -148,7 +152,7 @@ export default class Charts extends Translatable {
   renderResult() {
     if (!this.getTimes()) return
 
-    if(!this.isDataValid()) return (
+    if(!this.isDataValid() || this.getAvailableObjects().length === 0) return (
       <div className='column'>
     <div className='ui message'>{this.labels.dados_vazios}</div></div>
     )
@@ -174,6 +178,8 @@ export default class Charts extends Translatable {
           motionTime={this.props.motionTime}
           onChange={this.props.onChange}
           language={this.props.language}
+          objects={this.props.objects}
+          toggleObject={this.props.toggleObject}
         />
         <div className='movimentoResult ui stackable equal width grid' style={{ margin: '5px 0 0 0' }}>
           <div className='row'>
