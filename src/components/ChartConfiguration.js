@@ -53,8 +53,6 @@ export default class ChartConfiguration extends Translatable {
             min='1'
             onChange={(e) => this.update('motionTime', e.target.value)}
           />
-        </div>
-        <div className='field column'>
           <label>{this.labels.intervalo_movimento}:</label>
           <input
             type='number'
