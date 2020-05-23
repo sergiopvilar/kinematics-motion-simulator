@@ -139,7 +139,8 @@ export default class Charts extends Translatable {
             callback: (value) => `${value}${options[key].unity}`
           }
         }]
-      }
+      },
+      responsive: true
     }
   }
 
