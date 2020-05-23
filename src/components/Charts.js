@@ -7,31 +7,31 @@ export default class Charts extends Translatable {
 
   isDataValid() {
     const invalids = this.props.objects.filter((object) => {
-      return isNaN(parseInt(object.acceleration)) || isNaN(parseInt(object.startSpeed)) || isNaN(parseInt(object.startPosition))
+      return isNaN(parseFloat(object.acceleration)) || isNaN(parseFloat(object.startSpeed)) || isNaN(parseFloat(object.startPosition))
     })
     
     return invalids.length === 0
   }
 
   finalPositionNoAcceleration(startPosition, velocidade, time) {
-    return parseInt(startPosition, 10) + (parseInt(velocidade, 10) * time)
+    return parseFloat(startPosition, 10) + (parseFloat(velocidade, 10) * time)
   }
 
   finalPosition(startPosition, time, acceleration, startSpeed) {
-    let base = parseInt(startPosition, 10) + parseInt(startSpeed, 10) * time
+    let base = parseFloat(startPosition, 10) + parseFloat(startSpeed, 10) * time
 
     if (acceleration > 0)
-      return base + (Math.abs(parseInt(acceleration, 10)) * (time * time)) / 2
-    return base - (Math.abs(parseInt(acceleration, 10)) * (time * time)) / 2
+      return base + (Math.abs(parseFloat(acceleration, 10)) * (time * time)) / 2
+    return base - (Math.abs(parseFloat(acceleration, 10)) * (time * time)) / 2
   }
 
   hasAcceleration(a) {
-    return (parseInt(a, 10) != 0)
+    return (parseFloat(a, 10) != 0)
   }
 
   getSpeed(object, time) {
-    if (!this.hasAcceleration(object.acceleration)) return parseInt(object.startSpeed, 10)
-    return parseInt(object.startSpeed, 10) + (parseInt(object.acceleration, 10) * time)
+    if (!this.hasAcceleration(object.acceleration)) return parseFloat(object.startSpeed, 10)
+    return parseFloat(object.startSpeed, 10) + (parseFloat(object.acceleration, 10) * time)
   }
 
   getPosition(object, time) {
@@ -54,12 +54,17 @@ export default class Charts extends Translatable {
     return this.props.objects.filter((obj) => obj.enabled)
   }
 
+  getLabels() {
+    return this.getTimes().map((t) => {
+      if(t < 60) return `${t}s`
+      if(t < 3600) return `${Number((t/60).toFixed(2))}min`
+      return `${Number((t/3600).toFixed(2))}h`
+    })
+  }
+
   speedData() {
-
-    const labels = this.getTimes().map((t) => `${t}${this.props.timeUnity}`)
-
     return {
-      labels: labels,
+      labels: this.getLabels(),
       datasets: this.getAvailableObjects().map((object) => {
         return Object.assign(this.getAxis(object), {
           data: this.getTimes().map((time) => {
@@ -71,11 +76,9 @@ export default class Charts extends Translatable {
   }
 
   positionData() {
-    const labels = this.getTimes().map((t) => `${t}s`)
-
     return {
       title: { text: this.labels.posicao_tempo, display: true },
-      labels: labels,
+      labels: this.getLabels(),
       datasets: this.getAvailableObjects().map((object) => {
         return Object.assign(this.getAxis(object), {
           data: this.getTimes().map((time) => {
@@ -104,11 +107,14 @@ export default class Charts extends Translatable {
     const options = {
       speed: {
         title: this.labels.velocidade_tempo,
-        unity: this.props.speedUnity
+        unity: (value) => `${value}${this.props.speedUnity}`
       },
       position: {
         title: this.labels.posicao_tempo,
-        unity: this.props.spaceUnity
+        unity: (value) => {
+          if(value < 1000) return `${value}${this.props.spaceUnity}`
+          return `${value/1000}km`
+        }
       }
     }
 
@@ -124,7 +130,7 @@ export default class Charts extends Translatable {
             return `${this.labels.tempo}: ${tooltip[0].label}`
           },
           label: (tooltipItems, data) => {
-            return `${data.datasets[tooltipItems.datasetIndex].label}: ${tooltipItems.value}${options[key].unity}`
+            return `${data.datasets[tooltipItems.datasetIndex].label}: ${options[key].unity(tooltipItems.value)}`
           }
         }
       },
@@ -136,7 +142,7 @@ export default class Charts extends Translatable {
         }],
         yAxes: [{
           ticks: {
-            callback: (value) => `${value}${options[key].unity}`
+            callback: (value) => `${options[key].unity(value)}`
           }
         }]
       },
