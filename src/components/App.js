@@ -22,6 +22,14 @@ class MRUComponent extends Translatable {
 
     this.setState({objects: objects})
   }
+  
+  validateAndSetState(state) {
+
+    if(state.motionInterval && state.motionInterval < 1) return
+    if(state.motionTime && state.motionTime < 1) return
+
+    this.setState(state)
+  }
 
   renderHeader() {
     return (
@@ -56,7 +64,7 @@ class MRUComponent extends Translatable {
               timeUnity={'s'}
               spaceUnity={'m'}
               speedUnity={'m/s'}
-              onChange={(state) => this.setState(state)}
+              onChange={(state) => this.validateAndSetState(state)}
               toggleObject={this.toggleObject.bind(this)}
             />
           </div>

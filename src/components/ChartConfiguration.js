@@ -21,6 +21,7 @@ export default class ChartConfiguration extends Translatable {
           <input
             type='number'
             value={this.props.motionTime}
+            min='1'
             onChange={(e) => this.update('motionTime', e.target.value)}
           />
         </div>
@@ -29,6 +30,7 @@ export default class ChartConfiguration extends Translatable {
           <input
             type='number'
             value={this.props.motionInterval}
+            min='1'
             onChange={(e) => this.update('motionInterval', e.target.value)}
           />
         </div>
