@@ -14,8 +14,8 @@ export default class ChartConfiguration extends Translatable {
 
   render() {
     return (
-      <div className='actions ui form'>
-        <div className='inline field' style={{textAlign: 'center'}}>
+      <div className='actions ui form stackable equal width grid grid'>
+        <div className='inline field column' style={{textAlign: 'center'}}>
           <label>{this.labels.tempo_movimento}:</label>
           <input
             type='number'
@@ -23,7 +23,7 @@ export default class ChartConfiguration extends Translatable {
             onChange={(e) => this.update('motionTime', e.target.value)}
           />
         </div>
-        <div className='inline field' style={{textAlign: 'center'}}>
+        <div className='inline field column' style={{textAlign: 'center'}}>
           <label>{this.labels.intervalo_movimento}:</label>
           <input
             type='number'
