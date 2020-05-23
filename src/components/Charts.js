@@ -55,11 +55,7 @@ export default class Charts extends Translatable {
   }
 
   getLabels() {
-    return this.getTimes().map((t) => {
-      if(t < 60) return `${t}s`
-      if(t < 3600) return `${Number((t/60).toFixed(2))}min`
-      return `${Number((t/3600).toFixed(2))}h`
-    })
+    return this.getTimes().map((t) => this.timeUnity(t))
   }
 
   speedData() {
@@ -102,19 +98,48 @@ export default class Charts extends Translatable {
     return times
   }
 
+  round(value, decimals = this.props.decimals) {
+    return Number((value).toFixed(parseInt(decimals)))
+  }
+
+  timeUnity(value) {
+    const unity = this.props.timeUnity
+
+    if(unity === 'adaptive' && value < 60 || unity === 's') return `${value}s`
+    if(unity === 'adaptive' && value < 3600 || unity === 'min') return `${this.round(value/60)}min`
+    if(unity === 'adaptive' || unity === 'h') return `${this.round(value/3600)}h`
+    
+    return `${value}s`
+  }
+
+  lengthUnity(value) {
+    const unity = this.props.lengthUnity
+    
+    if(unity === 'adaptive' && value < 1000) return `${value}m`
+    if(unity === 'adaptive') return `${this.round(value/1000)}km`
+
+    if(unity === 'dm') return `${this.round(value*10)}dm`
+    if(unity === 'cm') return `${this.round(value*100)}cm`
+    if(unity === 'dam') return `${this.round(value/10)}dam`
+    if(unity === 'hm') return `${this.round(value/100)}hm`
+    if(unity === 'km') return `${this.round(value/1000)}km`
+
+    return `${value}m`
+  }
+
   getOptions(key) {
 
     const options = {
       speed: {
         title: this.labels.velocidade_tempo,
-        unity: (value) => `${value}${this.props.speedUnity}`
+        unity: (value) => {
+          if(this.props.speedUnity === 'km/h') return `${this.round(value/3.6)}${this.props.speedUnity}`
+          return `${value}${this.props.speedUnity}`
+        }
       },
       position: {
         title: this.labels.posicao_tempo,
-        unity: (value) => {
-          if(value < 1000) return `${value}${this.props.spaceUnity}`
-          return `${value/1000}km`
-        }
+        unity: (value) => this.lengthUnity(value)
       }
     }
 
@@ -187,6 +212,11 @@ export default class Charts extends Translatable {
           language={this.props.language}
           objects={this.props.objects}
           toggleObject={this.props.toggleObject}
+          speedUnity={this.props.speedUnity}
+          timeUnity={this.props.timeUnity}
+          lengthUnity={this.props.lengthUnity}
+          setValue={this.props.setValue}
+          decimals={this.props.decimals}
         />
         <div className='movimentoResult ui stackable equal width grid' style={{ margin: '5px 0 0 0' }}>
           <div className='row'>

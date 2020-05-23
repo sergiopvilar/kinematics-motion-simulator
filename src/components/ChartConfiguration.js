@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox } from 'semantic-ui-react'
+import { Checkbox, Dropdown } from 'semantic-ui-react'
 import Translatable from './Translatable.js'
 
 export default class ChartConfiguration extends Translatable {
@@ -13,10 +13,39 @@ export default class ChartConfiguration extends Translatable {
     this.props.onChange(object)
   }
 
+  speedOptions() {
+    return [
+      {key: 'm/s', value: 'm/s', text: this.labels.metros_por_segundo},
+      {key: 'km/h', value: 'km/h', text: this.labels.quilometros_por_hora},
+    ]
+  }
+
+  timeOptions() {
+    return [
+      {key: 'adaptive', value: 'adaptive', text: this.labels.adaptavel},
+      {key: 's', value: 's', text: this.labels.segundos},
+      {key: 'min', value: 'min', text: this.labels.minutos},
+      {key: 'h', value: 'h', text: this.labels.horas},
+    ]
+  }
+
+  lengthOptions() {
+    return [
+      {key: 'adaptive', value: 'adaptive', text: this.labels.adaptavel},
+      {key: 'cm', value: 'cm', text: this.labels.centimetros},
+      {key: 'dm', value: 'dm', text: this.labels.decimetros},
+      {key: 'm', value: 'm', text: this.labels.metros},
+      {key: 'dam', value: 'dam', text: this.labels.decametros},
+      {key: 'hm', value: 'hm', text: this.labels.hectometros},
+      {key: 'km', value: 'km', text: this.labels.quilometros},
+    ]
+  }
+
   render() {
+    console.log(this.props.speedUnity)
     return (
       <div className='actions ui form stackable equal width grid grid'>
-        <div className='inline field column' style={{textAlign: 'center'}}>
+        <div className='field column'>
           <label>{this.labels.tempo_movimento}:</label>
           <input
             type='number'
@@ -25,7 +54,7 @@ export default class ChartConfiguration extends Translatable {
             onChange={(e) => this.update('motionTime', e.target.value)}
           />
         </div>
-        <div className='inline field column' style={{textAlign: 'center'}}>
+        <div className='field column'>
           <label>{this.labels.intervalo_movimento}:</label>
           <input
             type='number'
@@ -49,6 +78,48 @@ export default class ChartConfiguration extends Translatable {
             )
           })}
           </ul>
+        </div>
+        <div className='column field'>
+          <h3>{this.labels.unidades_de_medida}</h3>
+          <ul>
+            <li>
+              {this.labels.velocidade}: 
+              <Dropdown
+                inline
+                className='inline-unity'
+                options={this.speedOptions()}
+                defaultValue={this.props.speedUnity}
+                onChange={(e, obj) => this.props.setValue('speedUnity', obj.value)}
+              />
+            </li>
+            <li>
+              {this.labels.tempo}: 
+              <Dropdown
+                inline
+                className='inline-unity'
+                options={this.timeOptions()}
+                defaultValue={this.props.timeUnity}
+                onChange={(e, obj) => this.props.setValue('timeUnity', obj.value)}
+              />
+            </li>
+            <li>
+              {this.labels.comprimento}: 
+              <Dropdown
+                inline
+                className='inline-unity'
+                options={this.lengthOptions()}
+                defaultValue={this.props.lengthUnity}
+                onChange={(e, obj) => this.props.setValue('lengthUnity', obj.value)}
+              />
+            </li>
+          </ul>
+          <label>{this.labels.casas_decimais}:</label>
+          <input
+            type='number'
+            value={this.props.decimals}
+            min='0'
+            onChange={(e) => this.update('decimals', e.target.value)}
+          />
         </div>
       </div>
     )

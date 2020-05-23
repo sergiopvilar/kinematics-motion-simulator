@@ -12,7 +12,11 @@ class MRUComponent extends Translatable {
       motionTime: 10,
       motionInterval: 1,
       language: props.language,
-      objects: []
+      objects: [],
+      speedUnity: 'm/s',
+      timeUnity: 'adaptive',
+      lengthUnity: 'adaptive',
+      decimals: 2
     }
   }
 
@@ -29,6 +33,13 @@ class MRUComponent extends Translatable {
     if(state.motionTime && state.motionTime < 1) return
 
     this.setState(state)
+  }
+
+  setStateValue(unity, value) {
+    let obj = {}
+    obj[unity] = value
+
+    this.setState(obj)
   }
 
   renderHeader() {
@@ -61,11 +72,13 @@ class MRUComponent extends Translatable {
               motionTime={this.state.motionTime}
               motionInterval={this.state.motionInterval}
               language={this.state.language}
-              timeUnity={'s'}
-              spaceUnity={'m'}
-              speedUnity={'m/s'}
+              timeUnity={this.state.timeUnity}
+              lengthUnity={this.state.lengthUnity}
+              speedUnity={this.state.speedUnity}
+              decimals={this.state.decimals}
               onChange={(state) => this.validateAndSetState(state)}
               toggleObject={this.toggleObject.bind(this)}
+              setValue={this.setStateValue.bind(this)}
             />
           </div>
         </div>
