@@ -34,8 +34,10 @@ export default class ObjectForm extends Translatable {
   }
 
   newObject(length = this.state.objects.length, language = this.props.language) {
+    const name = length === 0 ? 1 : this.state.objects[this.state.objects.length - 1].nome + 1
+
     return {
-      nome: `${length + 1}`,
+      nome: name,
       acceleration: '',
       startSpeed: '',
       startPosition: '',
