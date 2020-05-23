@@ -1,4 +1,5 @@
 import React from 'react'
+import RandomColor from 'randomcolor'
 import Translatable from './Translatable.js'
 
 export default class ObjectForm extends Translatable {
@@ -27,7 +28,8 @@ export default class ObjectForm extends Translatable {
       nome: `${this.getLabel(language, 'objeto')} ${length + 1}`,
       acceleration: 10,
       startSpeed: 9,
-      startPosition: 0
+      startPosition: 0,
+      color: RandomColor({luminosity: 'dark'})
     }
   }
 

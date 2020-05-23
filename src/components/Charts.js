@@ -1,5 +1,5 @@
 import React from 'react';
-import CanvasJSChart from '../vendor/canvasjs.react.js'
+import {Line} from 'react-chartjs-2'
 import Translatable from './Translatable.js'
 import ChartConfiguration from './ChartConfiguration.js'
 
@@ -40,51 +40,46 @@ export default class Charts extends Translatable {
     return this.finalPosition(object.startPosition, time, object.acceleration, object.startSpeed)
   }
 
-  getAxis(unity) {
+  getAxis(object) {
     return {
-      axisX: {
-        suffix: 's',
-        minimum: 0,
-        interval: parseInt(this.props.motionInterval, 10)
-      },
-      axisY: {
-        suffix: unity
-      },
+      label: object.nome,
+      fill: false,
+      borderColor: object.color,
+      pointBackgroundColor: object.color,
+      pointRadius: 4
     }
   }
 
   speedData() {
-    return Object.assign({
-      title: {
-        text: this.labels.velocidade_tempo
-      },
-      data: this.props.objects.map((object, index) => {
-        return {
-          type: 'line',
-          toolTipContent: `${object.nome} ${this.labels.em} {x}s: {y}m/s`,
-          dataPoints: this.getTimes().map((time) => {
+
+    const labels = this.getTimes().map((t) => `${t}${this.props.timeUnity}`)
+
+    return {
+      labels: labels,
+      datasets: this.props.objects.map((object) => {
+        return Object.assign(this.getAxis(object), {
+          data: this.getTimes().map((time) => {
             return {x: time, y: this.getSpeed(object, time) }
           })
-        }
+        })
       })
-    }, this.getAxis('m/2'))
+    }
   }
 
   positionData() {
-    return Object.assign({
-      title: {
-        text: this.labels.posicao_tempo
-      },
-      data: this.props.objects.map((object, index) => {
-        return {
-          type: 'line',
-          toolTipContent: `${object.nome} ${this.labels.em} {x}s: {y}m`,
-          dataPoints: this.getTimes().map((time) => {
+    const labels = this.getTimes().map((t) => `${t}s`)
+
+    return {
+      title: { text: this.labels.posicao_tempo, display: true },
+      labels: labels,
+      datasets: this.props.objects.map((object) => {
+        return Object.assign(this.getAxis(object), {
+          data: this.getTimes().map((time) => {
             return {x: time, y: this.getPosition(object, time) }
           })
-        }
+        })
       })
-    }, this.getAxis('m'))
+    }
   }
 
   getTimes() {
@@ -100,9 +95,53 @@ export default class Charts extends Translatable {
     return times
   }
 
-  renderChart(data) {
+  getOptions(key) {
+
+    const options = {
+      speed: {
+        title: this.labels.velocidade_tempo,
+        unity: this.props.speedUnity
+      },
+      position: {
+        title: this.labels.posicao_tempo,
+        unity: this.props.spaceUnity
+      }
+    }
+
+    return {
+      title: {
+        text: options[key].title,
+        display: true,
+        fontSize: 24
+      },
+      tooltips: {
+        callbacks: {
+          title: (tooltip) => {
+            return `${this.labels.tempo}: ${tooltip[0].label}`
+          },
+          label: (tooltipItems, data) => {
+            return `${data.datasets[tooltipItems.datasetIndex].label}: ${tooltipItems.value}${options[key].unity}`
+          }
+        }
+      },
+      scales: {
+        xAxes: [{
+            ticks: {
+                suggestedMin: 0
+            }
+        }],
+        yAxes: [{
+          ticks: {
+            callback: (value) => `${value}${options[key].unity}`
+          }
+        }]
+      }
+    }
+  }
+
+  renderChart(data, options) {
     return (
-      <CanvasJSChart options={data} />
+      <Line data={data} options={options} />
     )
   }
 
@@ -117,10 +156,10 @@ export default class Charts extends Translatable {
     return (
       <React.Fragment>
         <div className='column'>
-          { this.renderChart(this.speedData())}
+          { this.renderChart(this.speedData(), this.getOptions('speed'))}
         </div>
         <div className='column'>
-          { this.renderChart(this.positionData())}
+          { this.renderChart(this.positionData(), this.getOptions('position'))}
         </div>
       </React.Fragment>
     )

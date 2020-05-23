@@ -49,6 +49,9 @@ class MRUComponent extends Translatable {
               motionTime={this.state.motionTime}
               motionInterval={this.state.motionInterval}
               language={this.state.language}
+              timeUnity={'s'}
+              spaceUnity={'m'}
+              speedUnity={'m/s'}
               onChange={(state) => this.setState(state)}
             />
           </div>
