@@ -93,7 +93,7 @@ class MRUComponent extends Translatable {
             />
           </div>
         </div>
-        <div id="footer">{this.labels.titulo} {this.labels.por} <a href="mailto:vilar@me.com">Sérgio Vilar</a><br />
+        <div id="footer">{this.labels.titulo} {this.labels.por} <a href="http://vilar.cc">Sérgio Vilar</a><br />
         {this.labels.codigo_aberto} <a href="https://github.com/sergiopvilar/urm-simulator">Github</a></div>
       </React.Fragment>
     )
