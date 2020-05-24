@@ -8,7 +8,7 @@ const defaultLanguage = window.location.hash !== '' ? decodeURI(window.location.
 
 ReactDOM.render(
   <React.StrictMode>
-    <App language={defaultLanguage} />
+    <App language={defaultLanguage} width={window.outerWidth} />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -78,7 +78,7 @@ export default class ObjectForm extends Translatable {
 
   setValue(index, field, value) {
     let objects = this.state.objects.map((object, _index) => {
-      if (index == _index) object[field] = value
+      if (index === _index) object[field] = value
       return object
     })
 

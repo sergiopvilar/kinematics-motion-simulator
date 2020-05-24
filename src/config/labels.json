@@ -23,6 +23,7 @@
     "velocidade_tempo": "Velocidade x Tempo",
     "posicao_tempo": "Posição x Tempo",
     "dados_vazios": "Os gráficos aparecerão quando o simulador tiver informações suficientes.",
+    "dados_vazios_animacao": "A animação aparecerá quando o simulador tiver informações suficientes.",
     "intervalo_movimento": "Intervalo do movimento",
     "mostrar_no_grafico": "Objetos a serem mostrados nos gráficos",
     "unidades_de_medida": "Unidades de medida dos gráficos",
@@ -39,7 +40,11 @@
     "decametros": "Decâmetros",
     "hectometros": "Hectômetros",
     "quilometros": "Quilômetros",
-    "casas_decimais": "Casas decimais"
+    "casas_decimais": "Casas decimais",
+    "animacao_movimento": "Animação do Movimento",
+    "iniciar": "Iniciar",
+    "parar": "Pausar",
+    "reiniciar": "Resetar"
   },
   "English": {
     "titulo": "Kinematics Study Charts Simulator",
@@ -65,6 +70,7 @@
     "velocidade_tempo": "Speed x Time",
     "posicao_tempo": "Position x Time",
     "dados_vazios": "Charts will show up when the simulador have enough data.",
+    "dados_vazios_animacao": "Motion animation will show up when the simulador have enough data.",
     "intervalo_movimento": "Motion Interval",
     "mostrar_no_grafico": "Objects to be displayed in the charts",
     "unidades_de_medida": "Charts measurement units",
@@ -81,6 +87,10 @@
     "decametros": "Decametres",
     "hectometros": "Hectometres",
     "quilometros": "Kilometres",
-    "casas_decimais": "Decimal places"
+    "casas_decimais": "Decimal places",
+    "animacao_movimento": "Motion Animation",
+    "iniciar": "Start",
+    "parar": "Stop",
+    "reiniciar": "Reset"
   }
 }

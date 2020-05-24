@@ -2,6 +2,7 @@ import React from 'react';
 import Translatable from './Translatable.js'
 import ObjectForm from './ObjectForm.js'
 import Charts from './Charts.js'
+import MotionAnimation from './MotionAnimation.js'
 import '../App.css';
 
 class MRUComponent extends Translatable {
@@ -43,6 +44,15 @@ class MRUComponent extends Translatable {
     this.setState(obj)
   }
 
+  motionProps() {
+    const keys = ['objects', 'motionTimeUnity', 'motionTime', 'motionInterval', 'language', 'lengthUnity', 'timeUnity',
+                  'decimals']
+    let props = {}
+
+    keys.map((key) => props[key] = this.state[key])
+    return props
+  }
+
   renderHeader() {
     return (
       <React.Fragment>
@@ -67,20 +77,19 @@ class MRUComponent extends Translatable {
             objects={this.state.objects}
             onChange={({objects}) => this.setState({objects: objects})}
           />
+          <div className='animacao'>
+            <MotionAnimation
+              {...this.motionProps()}
+              width={this.props.width}
+            />
+          </div>
           <div className='movimento'>
             <Charts
-              objects={this.state.objects}
-              motionTime={this.state.motionTime}
-              motionInterval={this.state.motionInterval}
-              language={this.state.language}
-              timeUnity={this.state.timeUnity}
-              lengthUnity={this.state.lengthUnity}
               speedUnity={this.state.speedUnity}
-              motionTimeUnity={this.state.motionTimeUnity}
-              decimals={this.state.decimals}
               onChange={(state) => this.validateAndSetState(state)}
               toggleObject={this.toggleObject.bind(this)}
               setValue={this.setStateValue.bind(this)}
+              {...this.motionProps()}
             />
           </div>
         </div>

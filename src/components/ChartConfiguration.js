@@ -77,7 +77,7 @@ export default class ChartConfiguration extends Translatable {
           <ul>
           {this.props.objects.map((object, index) => {
             return (
-              <li>
+              <li key={index}>
                 <Checkbox
                   label={`${this.labels.objeto} ${object.nome}`}
                   defaultChecked={object.enabled}

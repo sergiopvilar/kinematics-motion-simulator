@@ -1,53 +1,9 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2'
-import Translatable from './Translatable.js'
 import ChartConfiguration from './ChartConfiguration.js'
-import MotionObject from './MotionObject.js'
+import Motion from './Motion.js'
 
-export default class Charts extends Translatable {
-
-  isDataValid() {
-    const invalids = this.props.objects.filter((obj) => {
-      const object = new MotionObject(obj)
-      return isNaN(object.acceleration) || isNaN(object.startSpeed) || isNaN(object.startPosition)
-    })
-
-    return invalids.length === 0
-  }
-
-  finalPositionNoAcceleration(startPosition, velocidade, time) {
-    time = this.timeInUnity(time)
-    return startPosition + (velocidade * time)
-  }
-
-  finalPosition(startPosition, time, acceleration, startSpeed) {
-    time = this.timeInUnity(time)
-    let base = startPosition + startSpeed * time
-
-    if (acceleration > 0)
-      return base + (Math.abs(acceleration) * (time * time)) / 2
-    return base - (Math.abs(acceleration) * (time * time)) / 2
-  }
-
-  hasAcceleration(acceleration) {
-    return (acceleration !== 0)
-  }
-
-  getSpeed(obj, time) {
-    const object = new MotionObject(obj)
-    time = this.timeInUnity(time)
-    if (!this.hasAcceleration(object.acceleration)) return object.startSpeed
-    return object.startSpeed + (object.acceleration * time)
-  }
-
-  getPosition(obj, time) {
-    const object = new MotionObject(obj)
-    time = this.timeInUnity(time)
-
-    if (!this.hasAcceleration(object.acceleration))
-      return this.finalPositionNoAcceleration(object.startPosition, object.startSpeed, time)
-    return this.finalPosition(object.startPosition, time, object.acceleration, object.startSpeed)
-  }
+export default class Charts extends Motion {
 
   getAxis(object) {
     return {
@@ -57,10 +13,6 @@ export default class Charts extends Translatable {
       pointBackgroundColor: object.color,
       pointRadius: 4
     }
-  }
-
-  getAvailableObjects() {
-    return this.props.objects.filter((obj) => obj.enabled)
   }
 
   getLabels() {
@@ -73,7 +25,7 @@ export default class Charts extends Translatable {
       datasets: this.getAvailableObjects().map((object) => {
         return Object.assign(this.getAxis(object), {
           data: this.getTimes().map((time) => {
-            return {x: time, y: this.getSpeed(object, time) }
+            return {x: time, y: this.round(this.getSpeed(object, time), this.props.decimals)}
           })
         })
       })
@@ -87,60 +39,11 @@ export default class Charts extends Translatable {
       datasets: this.getAvailableObjects().map((object) => {
         return Object.assign(this.getAxis(object), {
           data: this.getTimes().map((time) => {
-            return {x: time, y: this.getPosition(object, time) }
+            return {x: time, y: this.round(this.getPosition(object, time), this.props.decimals)}
           })
         })
       })
     }
-  }
-
-  timeInUnity(time) {
-    if (this.props.motionTimeUnity === 'min') return time * 60
-    if (this.props.motionTimeUnity === 'h') return time * 3600
-
-    return time
-  }
-
-  getTimes() {
-    let times = [0]
-      , counter = 0
-      , iterations = Math.round(this.timeInUnity(parseInt(this.props.motionTime, 10))/this.timeInUnity(parseInt(this.props.motionInterval, 10)))
-
-    for(var i = 0; i < iterations; i++){
-      counter = counter + this.timeInUnity(parseInt(this.props.motionInterval, 10))
-      times.push(counter)
-    }
-
-    return times
-  }
-
-  round(value, decimals = this.props.decimals) {
-    return Number((value).toFixed(parseInt(decimals)))
-  }
-
-  timeUnity(value) {
-    const unity = this.props.timeUnity
-
-    if(unity === 'adaptive' && value < 60 || unity === 's') return `${value}s`
-    if(unity === 'adaptive' && value < 3600 || unity === 'min') return `${this.round(value/60)}min`
-    if(unity === 'adaptive' || unity === 'h') return `${this.round(value/3600)}h`
-
-    return `${value}s`
-  }
-
-  lengthUnity(value) {
-    const unity = this.props.lengthUnity
-
-    if(unity === 'adaptive' && value < 1000) return `${value}m`
-    if(unity === 'adaptive') return `${this.round(value/1000)}km`
-
-    if(unity === 'dm') return `${this.round(value*10)}dm`
-    if(unity === 'cm') return `${this.round(value*100)}cm`
-    if(unity === 'dam') return `${this.round(value/10)}dam`
-    if(unity === 'hm') return `${this.round(value/100)}hm`
-    if(unity === 'km') return `${this.round(value/1000)}km`
-
-    return `${value}m`
   }
 
   getOptions(key) {
@@ -149,13 +52,15 @@ export default class Charts extends Translatable {
       speed: {
         title: this.labels.velocidade_tempo,
         unity: (value) => {
-          if(this.props.speedUnity === 'km/h') return `${this.round(value/3.6)}${this.props.speedUnity}`
+          if(this.props.speedUnity === 'km/h') return `${value/3.6}${this.props.speedUnity}`
           return `${value}${this.props.speedUnity}`
         }
       },
       position: {
         title: this.labels.posicao_tempo,
-        unity: (value) => this.lengthUnity(value)
+        unity: (value) => {
+          return this.lengthUnity(value)
+        }
       }
     }
 

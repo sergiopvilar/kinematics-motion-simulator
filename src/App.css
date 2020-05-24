@@ -40,3 +40,81 @@ ul li {
 .inline-unity {
   padding-left: 5px;
 }
+
+.animacao {
+  margin-bottom: 30px;
+}
+
+.animationBox {
+  border-bottom: 3px solid;
+  position:relative;
+  margin-top: 15px;
+}
+
+.motionMarkers {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.marker {
+  position: absolute;
+  width: 53px;
+  text-align: center;
+  font-size:12px;
+}
+
+.marker::before {
+  display: inline-block;
+  width: 3px;
+  background: black;
+  height: 10px;
+  content: " ";
+  position: absolute;
+  left: 25px;
+  top: -10px;
+}
+
+.motionObjects {
+  position: absolute;
+}
+
+.motionObject {
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.motionActions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.motionObject span.position {
+  position: absolute;
+  top: 20px;
+  font-size: 10px;
+  width: 53px;
+  text-align: center;
+  left: -15px;
+}
+
+.motionObject span.name {
+  position: absolute;
+  top: -15px;
+  font-size: 10px;
+  width: 53px;
+  text-align: center;
+  left: -15px;
+}
+
+.motionTime {
+  margin-bottom: 10px;
+}
+
+.playpause {
+  width: 110px;
+}

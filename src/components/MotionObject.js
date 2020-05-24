@@ -1,7 +1,7 @@
 export default class MotionObject {
 
   constructor(data) {
-    Object.keys(data).map((key) => {
+    Object.keys(data).forEach((key) => {
       if (['acceleration', 'startSpeed', 'startPosition'].indexOf(key) > -1)
         this[`_${key}`] = data[key]
       else
@@ -26,9 +26,8 @@ export default class MotionObject {
   }
 
   get startSpeed() {
-    console.log(this)
     if (this.startSpeedUnity === 'km/h')
-      return parseFloat(this._startSpeed, 10) * 3.6
+      return parseFloat(this._startSpeed, 10) / 3.6
 
     return parseFloat(this._startSpeed)
   }
