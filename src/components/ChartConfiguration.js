@@ -1,6 +1,7 @@
 import React from 'react'
 import { Checkbox, Dropdown } from 'semantic-ui-react'
 import Translatable from './Translatable.js'
+import Units from '../config/units.js'
 
 export default class ChartConfiguration extends Translatable {
 
@@ -14,48 +15,15 @@ export default class ChartConfiguration extends Translatable {
   }
 
   speedOptions() {
-    return [
-      {key: 'm/s', value: 'm/s', text: this.labels.metros_por_segundo},
-      {key: 'km/h', value: 'km/h', text: this.labels.quilometros_por_hora},
-    ]
+    return Units.speed(this.props.language)
   }
 
   timeOptions(but = []) {
-    const availableUnits = [{
-        key: 'adaptive',
-        value: 'adaptive',
-        text: this.labels.adaptavel
-      },
-      {
-        key: 's',
-        value: 's',
-        text: this.labels.segundos
-      },
-      {
-        key: 'min',
-        value: 'min',
-        text: this.labels.minutos
-      },
-      {
-        key: 'h',
-        value: 'h',
-        text: this.labels.horas
-      },
-    ]
-
-    return availableUnits.filter((unit) => but.indexOf(unit.key) === -1 )
+    return Units.time(this.props.language, but)
   }
 
   lengthOptions() {
-    return [
-      {key: 'adaptive', value: 'adaptive', text: this.labels.adaptavel},
-      {key: 'cm', value: 'cm', text: this.labels.centimetros},
-      {key: 'dm', value: 'dm', text: this.labels.decimetros},
-      {key: 'm', value: 'm', text: this.labels.metros},
-      {key: 'dam', value: 'dam', text: this.labels.decametros},
-      {key: 'hm', value: 'hm', text: this.labels.hectometros},
-      {key: 'km', value: 'km', text: this.labels.quilometros},
-    ]
+    return Units.length(this.props.language)
   }
 
   timeControlUnity() {

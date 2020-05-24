@@ -12,8 +12,8 @@ body {
   max-width: 200px;
 }
 
-.mruField .ui.basic.label {
-  width: 55px!important;
+.mruField .ui.basic.label, .mruField .ui.dropdown.label {
+  width: 80px!important;
   text-align: center;
 }
 

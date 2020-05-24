@@ -2,12 +2,14 @@ import React from 'react';
 import {Line} from 'react-chartjs-2'
 import Translatable from './Translatable.js'
 import ChartConfiguration from './ChartConfiguration.js'
+import MotionObject from './MotionObject.js'
 
 export default class Charts extends Translatable {
 
   isDataValid() {
-    const invalids = this.props.objects.filter((object) => {
-      return isNaN(parseFloat(object.acceleration)) || isNaN(parseFloat(object.startSpeed)) || isNaN(parseFloat(object.startPosition))
+    const invalids = this.props.objects.filter((obj) => {
+      const object = new MotionObject(obj)
+      return isNaN(object.acceleration) || isNaN(object.startSpeed) || isNaN(object.startPosition)
     })
 
     return invalids.length === 0
@@ -15,29 +17,31 @@ export default class Charts extends Translatable {
 
   finalPositionNoAcceleration(startPosition, velocidade, time) {
     time = this.timeInUnity(time)
-    return parseFloat(startPosition, 10) + (parseFloat(velocidade, 10) * time)
+    return startPosition + (velocidade * time)
   }
 
   finalPosition(startPosition, time, acceleration, startSpeed) {
     time = this.timeInUnity(time)
-    let base = parseFloat(startPosition, 10) + parseFloat(startSpeed, 10) * time
+    let base = startPosition + startSpeed * time
 
     if (acceleration > 0)
-      return base + (Math.abs(parseFloat(acceleration, 10)) * (time * time)) / 2
-    return base - (Math.abs(parseFloat(acceleration, 10)) * (time * time)) / 2
+      return base + (Math.abs(acceleration) * (time * time)) / 2
+    return base - (Math.abs(acceleration) * (time * time)) / 2
   }
 
-  hasAcceleration(a) {
-    return (parseFloat(a, 10) != 0)
+  hasAcceleration(acceleration) {
+    return (acceleration !== 0)
   }
 
-  getSpeed(object, time) {
+  getSpeed(obj, time) {
+    const object = new MotionObject(obj)
     time = this.timeInUnity(time)
-    if (!this.hasAcceleration(object.acceleration)) return parseFloat(object.startSpeed, 10)
-    return parseFloat(object.startSpeed, 10) + (parseFloat(object.acceleration, 10) * time)
+    if (!this.hasAcceleration(object.acceleration)) return object.startSpeed
+    return object.startSpeed + (object.acceleration * time)
   }
 
-  getPosition(object, time) {
+  getPosition(obj, time) {
+    const object = new MotionObject(obj)
     time = this.timeInUnity(time)
 
     if (!this.hasAcceleration(object.acceleration))

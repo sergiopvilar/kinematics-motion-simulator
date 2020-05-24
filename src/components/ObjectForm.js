@@ -1,6 +1,8 @@
 import React from 'react'
 import RandomColor from 'randomcolor'
+import { Input, Dropdown } from 'semantic-ui-react'
 import Translatable from './Translatable.js'
+import Units from '../config/units.js'
 
 export default class ObjectForm extends Translatable {
 
@@ -23,13 +25,21 @@ export default class ObjectForm extends Translatable {
     return { objects: props.objects }
   }
 
+  startSpeedOptions(but = []) {
+    return Units.speed(this.props.language, [], true)
+  }
+
+  startPositionOptions() {
+    return Units.length(this.props.language, ['adaptive'], true)
+  }
+
   getRandomColor() {
     const currentColors = this.state.objects.map((obj) => obj.color)
     let random = RandomColor({luminosity: 'dark'})
 
     while(currentColors.indexOf(random) > 0)
       random = RandomColor({luminosity: 'dark'})
-    
+
     return random
   }
 
@@ -42,7 +52,9 @@ export default class ObjectForm extends Translatable {
       startSpeed: '',
       startPosition: '',
       color: RandomColor({luminosity: 'dark'}),
-      enabled: true
+      enabled: true,
+      startSpeedUnity: 'm/s',
+      startPositionUnity: 'm'
     }
   }
 
@@ -75,20 +87,41 @@ export default class ObjectForm extends Translatable {
     })
   }
 
+  getUnitLabel(object, key, index) {
+    const unity = object[`${key}Unity`]
+
+    return (
+      <Dropdown
+        defaultValue={unity}
+        options={this[`${key}Options`]()}
+        onChange={(e, obj) => this.setValue(index, `${key}Unity`, obj.value)}
+      />
+    )
+  }
+
   renderFields(object, index) {
     const fields = {
       acceleration: [this.labels.aceleracao, 'm/s²'],
-      startSpeed: [this.labels.velocidade_inicial, 'm/s'],
-      startPosition: [this.labels.posicao_inicial, 'm'],
+      startSpeed: [this.labels.velocidade_inicial],
+      startPosition: [this.labels.posicao_inicial],
     }
 
-    return Object.entries(fields).map(([key, [label, unidade]]) => {
+    return Object.entries(fields).map(([key, [label, defaultUnity]]) => {
+      const inputLabel = defaultUnity ? {
+        basic: true,
+        content: defaultUnity
+      }: this.getUnitLabel(this.state.objects[index], key, index)
+
       return <div className='inline field' key={`${index}${key}`} style={{ display: 'block' }}>
         <label style={{ width: '150px' }}>{label}:</label>
         <div className='ui right labeled input mruField'>
-          <input type="number" value={this.state.objects[index][key]}
-            onChange={(e) => this.setValue(index, key, e.target.value)} />
-          <div className="ui basic label">{unidade}</div>
+          <Input
+            label={inputLabel}
+            labelPosition='right'
+            type='number'
+            value={this.state.objects[index][key]}
+            onChange={(e) => this.setValue(index, key, e.target.value)}
+          />
         </div>
       </div>
     })
