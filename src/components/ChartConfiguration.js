@@ -20,13 +20,30 @@ export default class ChartConfiguration extends Translatable {
     ]
   }
 
-  timeOptions() {
-    return [
-      {key: 'adaptive', value: 'adaptive', text: this.labels.adaptavel},
-      {key: 's', value: 's', text: this.labels.segundos},
-      {key: 'min', value: 'min', text: this.labels.minutos},
-      {key: 'h', value: 'h', text: this.labels.horas},
+  timeOptions(but = []) {
+    const availableUnits = [{
+        key: 'adaptive',
+        value: 'adaptive',
+        text: this.labels.adaptavel
+      },
+      {
+        key: 's',
+        value: 's',
+        text: this.labels.segundos
+      },
+      {
+        key: 'min',
+        value: 'min',
+        text: this.labels.minutos
+      },
+      {
+        key: 'h',
+        value: 'h',
+        text: this.labels.horas
+      },
     ]
+
+    return availableUnits.filter((unit) => but.indexOf(unit.key) === -1 )
   }
 
   lengthOptions() {
@@ -42,8 +59,7 @@ export default class ChartConfiguration extends Translatable {
   }
 
   timeControlUnity() {
-    if(this.props.timeUnity === 'adaptive') return 's'
-    return this.props.timeUnity
+    return this.props.motionTimeUnity
   }
 
   render() {
@@ -61,11 +77,10 @@ export default class ChartConfiguration extends Translatable {
               />
               <div className="ui basic label">{this.timeControlUnity()}</div>
             </div>
-            
           </div>
 
           <div className='inline field'>
-          <label style={{ width: '150px' }}>{this.labels.intervalo_movimento}:</label>
+            <label style={{ width: '150px' }}>{this.labels.intervalo_movimento}:</label>
             <div className='ui right labeled input mruField'>
               <input
                 type='number'
@@ -76,6 +91,18 @@ export default class ChartConfiguration extends Translatable {
               <div className="ui basic label">{this.timeControlUnity()}</div>
             </div>
           </div>
+
+          <div>
+            <h3>{this.labels.unidades_de_medida_movimento}</h3>
+            {this.labels.tempo}:
+              <Dropdown
+                inline
+                className='inline-unity'
+                options={this.timeOptions(['adaptive'])}
+                defaultValue={this.props.motionTimeUnity}
+                onChange={(e, obj) => this.props.setValue('motionTimeUnity', obj.value)}
+              />
+            </div>
         </div>
         <div className='column field'>
           <label>{this.labels.mostrar_no_grafico}:</label>
@@ -97,7 +124,7 @@ export default class ChartConfiguration extends Translatable {
           <h3>{this.labels.unidades_de_medida}</h3>
           <ul>
             <li>
-              {this.labels.velocidade}: 
+              {this.labels.velocidade}:
               <Dropdown
                 inline
                 className='inline-unity'
@@ -107,7 +134,7 @@ export default class ChartConfiguration extends Translatable {
               />
             </li>
             <li>
-              {this.labels.tempo}: 
+              {this.labels.tempo}:
               <Dropdown
                 inline
                 className='inline-unity'
@@ -117,7 +144,7 @@ export default class ChartConfiguration extends Translatable {
               />
             </li>
             <li>
-              {this.labels.comprimento}: 
+              {this.labels.comprimento}:
               <Dropdown
                 inline
                 className='inline-unity'

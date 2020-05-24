@@ -9,7 +9,7 @@ export default class Charts extends Translatable {
     const invalids = this.props.objects.filter((object) => {
       return isNaN(parseFloat(object.acceleration)) || isNaN(parseFloat(object.startSpeed)) || isNaN(parseFloat(object.startPosition))
     })
-    
+
     return invalids.length === 0
   }
 
@@ -91,8 +91,8 @@ export default class Charts extends Translatable {
   }
 
   timeInUnity(time) {
-    if(this.props.timeUnity === 'min') return time * 60
-    if(this.props.timeUnity === 'h') return time * 3600
+    if (this.props.motionTimeUnity === 'min') return time * 60
+    if (this.props.motionTimeUnity === 'h') return time * 3600
 
     return time
   }
@@ -120,13 +120,13 @@ export default class Charts extends Translatable {
     if(unity === 'adaptive' && value < 60 || unity === 's') return `${value}s`
     if(unity === 'adaptive' && value < 3600 || unity === 'min') return `${this.round(value/60)}min`
     if(unity === 'adaptive' || unity === 'h') return `${this.round(value/3600)}h`
-    
+
     return `${value}s`
   }
 
   lengthUnity(value) {
     const unity = this.props.lengthUnity
-    
+
     if(unity === 'adaptive' && value < 1000) return `${value}m`
     if(unity === 'adaptive') return `${this.round(value/1000)}km`
 
@@ -227,6 +227,7 @@ export default class Charts extends Translatable {
           speedUnity={this.props.speedUnity}
           timeUnity={this.props.timeUnity}
           lengthUnity={this.props.lengthUnity}
+          motionTimeUnity={this.props.motionTimeUnity}
           setValue={this.props.setValue}
           decimals={this.props.decimals}
         />
