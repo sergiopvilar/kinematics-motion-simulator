@@ -59,6 +59,8 @@ export default class Charts extends Motion {
   }
 
   torricelliData() {
+    let speed
+
     return {
       title: { text: this.labels.posicao_velocidade, display: true },
       labels: this.getPositions().map((position) => {
@@ -67,9 +69,10 @@ export default class Charts extends Motion {
       datasets: this.getAvailableObjects().map((object) => {
         return Object.assign(this.getAxis(object), {
           data: this.getPositions().map((position) => {
+            speed = this.getSpeedPerPosition(object, position)
             return {
               x: this.round(position, this.props.decimals),
-              y: this.round(this.getSpeedPerPosition(object, position), this.props.decimals)
+              y: typeof speed !== 'undefined' ? this.round(speed, this.props.decimals) : position
             }
           })
         })

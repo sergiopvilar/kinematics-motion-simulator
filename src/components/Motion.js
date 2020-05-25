@@ -64,7 +64,6 @@ export default class Motion extends Translatable {
   }
 
   finalPositionNoAcceleration(startPosition, velocidade, time) {
-    // console.log(startPosition, velocidade, time, startPosition + (velocidade * time))
     return startPosition + (velocidade * time)
   }
 
@@ -86,10 +85,14 @@ export default class Motion extends Translatable {
 
   getSpeedPerPosition(obj, position) {
     const object = new MotionObject(obj)
+    const deltaPosition = position - obj.startPosition
+
+    if(position < object.startPosition) return 0
 
     if (!this.hasAcceleration(object.acceleration))
       return object.startSpeed
-    return Math.sqrt(Math.pow(object.startPosition, 2) + (2 * object.acceleration * position))
+
+    return Math.sqrt(Math.pow(object.startSpeed, 2) + (2 * object.acceleration * deltaPosition))
   }
 
   round(value, decimals = this.props.decimals) {
