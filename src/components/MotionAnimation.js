@@ -6,20 +6,27 @@ export default class MotionAnimation extends Motion {
   constructor(props) {
     super(props)
     this.interval = undefined
-    this.markers = []
+    this.parseInitialState(props)
     this.state = {
       motionTime: this.getTimes()[0],
       animating: false,
     }
   }
 
-  componentWillReceiveProps(props) {
+  parseInitialState(props) {
+    this._startPosition = this.startPosition(props)
+    this._endPosition = this.endPosition(props)
+
     this.markers = this.getMarkers(props).map((marker) => {
       return {
         left: this.getMarkerPosition(marker, props),
         text: this.lengthUnity(this.round(marker, props.decimals))
       }
     })
+  }
+
+  componentWillReceiveProps(props) {
+    this.parseInitialState(props)
   }
 
   anyMarkerNear(position, markers, props = this.props) {
@@ -36,7 +43,7 @@ export default class MotionAnimation extends Motion {
   }
 
   getMarkers(props = this.props) {
-    let markers = [this.startPosition(props), this.endPosition(props), 0]
+    let markers = [this._startPosition, this._endPosition, 0]
     this.getPositionData(props).forEach((objectData) => {
       objectData.forEach((data) => {
         if(!this.anyMarkerNear(data.y, markers, props))
@@ -48,15 +55,15 @@ export default class MotionAnimation extends Motion {
   }
 
   fixScale(value, props = this.props) {
-    return value + (this.startPosition(props) < 0 ? this.startPosition(props) * -1 : 0)
+    return value + (this._startPosition < 0 ? this._startPosition * -1 : 0)
   }
 
   getMarkerPosition(marker, props = this.props) {
-    return ((props.width - 80) * this.fixScale(marker, props)) / this.fixScale(this.endPosition(props), props) + 20 - 25
+    return ((props.width - 80) * this.fixScale(marker, props)) / this.fixScale(this._endPosition, props) + 20 - 25
   }
 
   getObjectPosition(object, time) {
-    return ((this.props.width - 80) * (this.fixScale(this.getPosition(object, time)))) / this.fixScale(this.endPosition()) + 20 - 10
+    return ((this.props.width - 80) * (this.fixScale(this.getPosition(object, time)))) / this.fixScale(this._endPosition) + 20 - 10
   }
 
   getAnimationHeigth() {
