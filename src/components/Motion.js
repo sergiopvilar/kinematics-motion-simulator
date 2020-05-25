@@ -85,9 +85,7 @@ export default class Motion extends Translatable {
 
   getSpeedPerPosition(obj, position) {
     const object = new MotionObject(obj)
-    const deltaPosition = position - obj.startPosition
-
-    if(position < object.startPosition) return 0
+    const deltaPosition = position - (obj.startPosition)
 
     if (!this.hasAcceleration(object.acceleration))
       return object.startSpeed
