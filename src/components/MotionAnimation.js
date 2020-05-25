@@ -20,7 +20,7 @@ export default class MotionAnimation extends Motion {
     this.markers = this.getMarkers(props).map((marker) => {
       return {
         left: this.getMarkerPosition(marker, props),
-        text: this.lengthUnity(this.round(marker, props.decimals))
+        text: this.lengthUnity(this.round(marker, props.decimals), props)
       }
     })
   }

@@ -16,9 +16,9 @@ export default class Motion extends Translatable {
     return props.objects.filter((obj) => obj.enabled)
   }
 
-  timeInUnity(time) {
-    if (this.props.motionTimeUnity === 'min') return time * 60
-    if (this.props.motionTimeUnity === 'h') return time * 3600
+  timeInUnity(time, props = this.props) {
+    if (props.motionTimeUnity === 'min') return time * 60
+    if (props.motionTimeUnity === 'h') return time * 3600
 
     return time
   }
@@ -26,10 +26,10 @@ export default class Motion extends Translatable {
   getTimes(props = this.props) {
     let times = [0],
       counter = 0,
-      iterations = Math.round(this.timeInUnity(parseInt(props.motionTime, 10)) / this.timeInUnity(parseInt(props.motionInterval, 10)))
+      iterations = Math.round(this.timeInUnity(parseInt(props.motionTime, 10), props) / this.timeInUnity(parseInt(props.motionInterval, 10), props))
 
     for (var i = 0; i < iterations; i++) {
-      counter = counter + this.timeInUnity(parseInt(props.motionInterval, 10))
+      counter = counter + this.timeInUnity(parseInt(props.motionInterval, 10), props)
       times.push(counter)
     }
 
@@ -108,8 +108,8 @@ export default class Motion extends Translatable {
   }
 
 
-  lengthUnity(value) {
-    const unity = this.props.lengthUnity
+  lengthUnity(value, props = this.props) {
+    const unity = props.lengthUnity
 
     if(unity === 'adaptive' && value < 1000) return `${value}m`
     if(unity === 'adaptive') return `${this.round(value/1000)}km`
@@ -127,7 +127,7 @@ export default class Motion extends Translatable {
     let positions = []
 
     props.objects.forEach((object) => {
-      this.getTimes().forEach((time) => {
+      this.getTimes(props).forEach((time) => {
         positions.push(this.getPosition(object, time))
       })
     })
