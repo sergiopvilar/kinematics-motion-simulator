@@ -46,7 +46,7 @@
     "iniciar": "Iniciar",
     "parar": "Pausar",
     "reiniciar": "Resetar",
-    "posicao_velocidade": "Posição x Velocidade"
+    "posicao_velocidade": "Velocidade x Posição"
   },
   "English": {
     "titulo": "Kinematics Study Charts Simulator",
@@ -95,6 +95,6 @@
     "iniciar": "Start",
     "parar": "Stop",
     "reiniciar": "Reset",
-    "posicao_velocidade": "Position x Speed"
+    "posicao_velocidade": "Speed x Position"
   }
 }
