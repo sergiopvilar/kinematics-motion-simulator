@@ -1,5 +1,6 @@
 import React from 'react'
 import MotionComponent from './MotionComponent.js'
+import UnitConverter from '../physics/UnitConverter.js'
 
 export default class AnimationComponent extends MotionComponent {
 
@@ -54,12 +55,12 @@ export default class AnimationComponent extends MotionComponent {
     return markers.sort()
   }
 
-  fixScale(value, props = this.props) {
+  fixScale(value) {
     return value + (this._startPosition < 0 ? this._startPosition * -1 : 0)
   }
 
   getMarkerPosition(marker, props = this.props) {
-    return ((props.width - 80) * this.fixScale(marker, props)) / this.fixScale(this._endPosition, props) + 20 - 25
+    return ((props.width - 80) * this.fixScale(marker)) / this.fixScale(this._endPosition) + 20 - 25
   }
 
   getObjectPosition(object, time) {
@@ -88,12 +89,7 @@ export default class AnimationComponent extends MotionComponent {
   }
 
   translateMotionTime() {
-    const time = this.state.motionTime / 1000
-
-    if (this.props.motionTimeUnity === 'min') return time * 60
-    if (this.props.motionTimeUnity === 'h') return time * 3600
-
-    return time
+    return UnitConverter.timeFrom(this.props.motionTimeUnity, this.state.motionTime / 1000)
   }
 
   startAnimation() {

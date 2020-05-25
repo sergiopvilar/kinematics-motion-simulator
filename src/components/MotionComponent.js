@@ -1,5 +1,6 @@
 import TranslatableComponent from './TranslatableComponent.js'
 import MotionObject from '../physics/MotionObject.js'
+import UnitConverter from '../physics/UnitConverter.js'
 
 export default class MotionComponent extends TranslatableComponent {
 
@@ -17,19 +18,16 @@ export default class MotionComponent extends TranslatableComponent {
   }
 
   timeInUnity(time, props = this.props) {
-    if (props.motionTimeUnity === 'min') return time * 60
-    if (props.motionTimeUnity === 'h') return time * 3600
-
-    return time
+    return UnitConverter.timeFrom(props.motionTimeUnity, time)
   }
 
   getTimes(props = this.props) {
     let times = [0],
       counter = 0,
-      iterations = Math.round(this.timeInUnity(parseInt(props.motionTime, 10), props) / this.timeInUnity(parseInt(props.motionInterval, 10), props))
+      iterations = Math.round(this.timeInUnity(props.motionTime, props) / this.timeInUnity(props.motionInterval, props))
 
     for (var i = 0; i < iterations; i++) {
-      counter = counter + this.timeInUnity(parseInt(props.motionInterval, 10), props)
+      counter = counter + this.timeInUnity(props.motionInterval, props)
       times.push(counter)
     }
 
@@ -69,29 +67,17 @@ export default class MotionComponent extends TranslatableComponent {
   }
 
   timeUnity(value) {
-    const unity = this.props.timeUnity
+    const unit = this.props.timeUnity
+    const sufixUnit = unit === 'adaptive' ? UnitConverter.adaptiveLenghtUnitFor(value) : unit
 
-    if ((unity === 'adaptive' && value < 60) || unity === 's') return `${value}s`
-    if ((unity === 'adaptive' && value < 3600) || unity === 'min') return `${this.round(value/60)}min`
-    if (unity === 'adaptive' || unity === 'h') return `${this.round(value/3600)}h`
-
-    return `${value}s`
+    return `${this.round(UnitConverter.timeTo(unit, value))}${sufixUnit}`
   }
 
-
   lengthUnity(value, props = this.props) {
-    const unity = props.lengthUnity
+    const unit = props.lengthUnity
+    const sufixUnit = unit === 'adaptive' ? UnitConverter.adaptiveLenghtUnitFor(value) : unit
 
-    if(unity === 'adaptive' && value < 1000) return `${value}m`
-    if(unity === 'adaptive') return `${this.round(value/1000)}km`
-
-    if(unity === 'dm') return `${this.round(value*10)}dm`
-    if(unity === 'cm') return `${this.round(value*100)}cm`
-    if(unity === 'dam') return `${this.round(value/10)}dam`
-    if(unity === 'hm') return `${this.round(value/100)}hm`
-    if(unity === 'km') return `${this.round(value/1000)}km`
-
-    return `${value}m`
+    return `${this.round(UnitConverter.lengthTo(unit, value))}${sufixUnit}`
   }
 
   getAllPositions(props) {
