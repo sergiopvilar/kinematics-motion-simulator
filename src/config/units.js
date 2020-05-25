@@ -6,78 +6,67 @@ const label = (language, key) => {
 
 export default {
   speed: (language, but = [], abbr = false) => {
-    const available = [{
-        key: 'm/s',
-        value: 'm/s',
-        text: abbr ? 'm/s' : label(language, 'metros_por_segundo')
-      },
-      {
-        key: 'km/h',
-        value: 'km/h',
-        text: abbr ? 'km/h' : label(language, 'quilometros_por_hora')
-      },
-    ]
+    const units = {
+      'm/s': label(language, 'metros_por_segundo'),
+      'km/h': label(language, 'quilometros_por_hora')
+    }
+
+    const available = Object.keys(units).map((key) => {
+      return {
+        key: key,
+        value: key,
+        text: abbr ? key : units[key]
+      }
+    })
 
     return available.filter((unit) => but.indexOf(unit.key) === -1)
   },
   time: (language, but = [], abbr = false) => {
-    const available = [
-      {
-        key: 'adaptive',
-        value: 'adaptive',
-        text: label(language, 'adaptavel')
-      },
-      {
-        key: 's',
-        value: 's',
-        text: abbr ? 's' : label(language, 'segundos')
-      },
-      {
-        key: 'min',
-        value: 'min',
-        text: abbr ? 'min' : label(language, 'minutos')
-      },
-      {
-        key: 'h',
-        value: 'h',
-        text: abbr ? 'h' : label(language, 'horas')
-      },
-    ]
+    const units = {
+      s: label(language, 'segundos'),
+      min: label(language, 'minutos'),
+      h: label(language, 'horas'),
+    }
+
+    let available = [{
+      key: 'adaptive',
+      value: 'adaptive',
+      text: label(language, 'adaptavel')
+    }]
+
+    Object.keys(units).forEach((key) => {
+      available.push({
+        key: key,
+        value: key,
+        text: abbr ? key : units[key]
+      })
+    })
 
     return available.filter((unit) => but.indexOf(unit.key) === -1)
   },
   length: (language, but = [], abbr = false) => {
-    const available = [
-      {
-        key: 'adaptive',
-        value: 'adaptive',
-        text: label(language, 'adaptavel')
-      }, {
-        key: 'cm',
-        value: 'cm',
-        text: abbr ? 'cm' : label(language, 'centimetros')
-      }, {
-        key: 'dm',
-        value: 'dm',
-        text: abbr ? 'dm' : label(language, 'decimetros')
-      }, {
-        key: 'm',
-        value: 'm',
-        text: abbr ? 'm' : label(language, 'metros')
-      }, {
-        key: 'dam',
-        value: 'dam',
-        text: abbr ? 'dam' : label(language, 'decametros')
-      }, {
-        key: 'hm',
-        value: 'hm',
-        text: abbr ? 'hm' : label(language, 'hectometros')
-      }, {
-        key: 'km',
-        value: 'km',
-        text: abbr ? 'km' : label(language, 'quilometros')
-      },
-    ]
+    const units = {
+      cm: label(language, 'centimetros'),
+      dm: label(language, 'decimetros'),
+      m: label(language, 'metros'),
+      dam: label(language, 'decametros'),
+      hm: label(language, 'hectometros'),
+      km: label(language, 'quilometros'),
+    }
+
+    let available = [{
+      key: 'adaptive',
+      value: 'adaptive',
+      text: label(language, 'adaptavel')
+    }]
+
+    Object.keys(units).forEach((key) => {
+      available.push({
+        key: key,
+        value: key,
+        text: abbr ? key : units[key]
+      })
+    })
 
     return available.filter((unit) => but.indexOf(unit.key) === -1)
   }
