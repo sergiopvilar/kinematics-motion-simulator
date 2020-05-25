@@ -22,7 +22,11 @@ export default class Translatable extends React.Component {
   }
 
   setLanguage(language) {
-    if (window) window.location.hash = language
+    if (window){
+      window.location.hash = language
+      document.title = labels[language].titulo
+    }
+
     this.setState({language: language})
   }
 

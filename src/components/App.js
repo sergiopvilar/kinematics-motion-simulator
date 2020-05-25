@@ -22,6 +22,10 @@ class MRUComponent extends Translatable {
     }
   }
 
+  componentDidMount() {
+    this.setLanguage(this.state.language)
+  }
+
   toggleObject(index, state) {
     let objects = this.state.objects
     objects[index].enabled = state
