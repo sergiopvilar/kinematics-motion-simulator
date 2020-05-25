@@ -125,25 +125,24 @@ export default class Motion extends Translatable {
     return `${value}m`
   }
 
-  startPosition() {
-    let positions
+  getAllPositions() {
+    let positions = []
 
-    positions = this.props.objects.map((object) => {
-      return this.getPosition(object, 0)
+    this.props.objects.forEach((object) => {
+      this.getTimes().forEach((time) => {
+        positions.push(this.getPosition(object, time))
+      })
     })
 
-    return Math.min(...positions)
+    return positions
+  }
+
+  startPosition() {
+    return Math.min(...this.getAllPositions())
   }
 
   endPosition() {
-    let endTime = this.getTimes().pop()
-      , positions
-
-    positions = this.props.objects.map((object) => {
-      return this.getPosition(object, endTime)
-    })
-
-    return Math.max(...positions)
+    return Math.max(...this.getAllPositions())
   }
 
 }
