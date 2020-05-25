@@ -19,6 +19,18 @@ export default class Charts extends Motion {
     return this.getTimes().map((t) => this.timeUnity(t))
   }
 
+  getPositions() {
+    const end = this.endPosition()
+    const start = this.startPosition()
+    const step = (end - start) / this.getLabels().length
+
+    let positionList = []
+    for (var i = start; i <= end; i = i + step)
+      positionList.push(i)
+
+    return positionList
+  }
+
   speedData() {
     return {
       labels: this.getLabels(),
@@ -46,6 +58,25 @@ export default class Charts extends Motion {
     }
   }
 
+  torricelliData() {
+    return {
+      title: { text: this.labels.posicao_velocidade, display: true },
+      labels: this.getPositions().map((position) => {
+        return `${this.lengthUnity(this.round(position, this.props.decimals))}`
+      }),
+      datasets: this.getAvailableObjects().map((object) => {
+        return Object.assign(this.getAxis(object), {
+          data: this.getPositions().map((position) => {
+            return {
+              x: this.round(position, this.props.decimals),
+              y: this.round(this.getSpeedPerPosition(object, position), this.props.decimals)
+            }
+          })
+        })
+      })
+    }
+  }
+
   getOptions(key) {
 
     const options = {
@@ -61,6 +92,13 @@ export default class Charts extends Motion {
         unity: (value) => {
           return this.lengthUnity(value)
         }
+      },
+      torricelli: {
+        title: this.labels.posicao_velocidade,
+        unity: (value) => {
+          if (this.props.speedUnity === 'km/h') return `${value/3.6}${this.props.speedUnity}`
+          return `${value}${this.props.speedUnity}`
+        }
       }
     }
 
@@ -73,7 +111,7 @@ export default class Charts extends Motion {
       tooltips: {
         callbacks: {
           title: (tooltip) => {
-            return `${this.labels.tempo}: ${tooltip[0].label}`
+            return `${key === 'torricelli' ? this.labels.posicao : this.labels.tempo}: ${tooltip[0].label}`
           },
           label: (tooltipItems, data) => {
             return `${data.datasets[tooltipItems.datasetIndex].label}: ${options[key].unity(tooltipItems.value)}`
@@ -112,11 +150,18 @@ export default class Charts extends Motion {
 
     return (
       <React.Fragment>
-        <div className='column'>
-          { this.renderChart(this.speedData(), this.getOptions('speed'))}
+        <div className='row'>
+          <div className='column'>
+            { this.renderChart(this.speedData(), this.getOptions('speed'))}
+          </div>
+          <div className='column'>
+            { this.renderChart(this.positionData(), this.getOptions('position'))}
+          </div>
         </div>
+        <div className='two column centered row'>
         <div className='column'>
-          { this.renderChart(this.positionData(), this.getOptions('position'))}
+          { this.renderChart(this.torricelliData(), this.getOptions('torricelli'))}
+        </div>
         </div>
       </React.Fragment>
     )
@@ -141,9 +186,7 @@ export default class Charts extends Motion {
           decimals={this.props.decimals}
         />
         <div className='movimentoResult ui stackable equal width grid' style={{ margin: '5px 0 0 0' }}>
-          <div className='row'>
-            {this.renderResult()}
-          </div>
+          {this.renderResult()}
         </div>
       </React.Fragment>
     )

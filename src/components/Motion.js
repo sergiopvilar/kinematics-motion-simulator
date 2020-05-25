@@ -84,6 +84,13 @@ export default class Motion extends Translatable {
     return this.finalPosition(object.startPosition, time, object.acceleration, object.startSpeed)
   }
 
+  getSpeedPerPosition(obj, position) {
+    const object = new MotionObject(obj)
+
+    if (!this.hasAcceleration(object.acceleration))
+      return object.startSpeed
+    return Math.sqrt(Math.pow(object.startPosition, 2) + (2 * object.acceleration * position))
+  }
 
   round(value, decimals = this.props.decimals) {
     return Number((value).toFixed(parseInt(decimals)))

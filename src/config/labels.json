@@ -22,6 +22,7 @@
     "posicao_inicial": "Posição Inicial",
     "velocidade_tempo": "Velocidade x Tempo",
     "posicao_tempo": "Posição x Tempo",
+    "posicao": "Posição",
     "dados_vazios": "Os gráficos aparecerão quando o simulador tiver informações suficientes.",
     "dados_vazios_animacao": "A animação aparecerá quando o simulador tiver informações suficientes.",
     "intervalo_movimento": "Intervalo do movimento",
@@ -44,7 +45,8 @@
     "animacao_movimento": "Animação do Movimento",
     "iniciar": "Iniciar",
     "parar": "Pausar",
-    "reiniciar": "Resetar"
+    "reiniciar": "Resetar",
+    "posicao_velocidade": "Posição x Velocidade"
   },
   "English": {
     "titulo": "Kinematics Study Charts Simulator",
@@ -69,6 +71,7 @@
     "posicao_inicial": "Initial Position",
     "velocidade_tempo": "Speed x Time",
     "posicao_tempo": "Position x Time",
+    "posicao": "Position",
     "dados_vazios": "Charts will show up when the simulador have enough data.",
     "dados_vazios_animacao": "Motion animation will show up when the simulador have enough data.",
     "intervalo_movimento": "Motion Interval",
@@ -91,6 +94,7 @@
     "animacao_movimento": "Motion Animation",
     "iniciar": "Start",
     "parar": "Stop",
-    "reiniciar": "Reset"
+    "reiniciar": "Reset",
+    "posicao_velocidade": "Position x Speed"
   }
 }
