@@ -6,15 +6,25 @@ export default class MotionAnimation extends Motion {
   constructor(props) {
     super(props)
     this.interval = undefined
+    this.markers = []
     this.state = {
       motionTime: this.getTimes()[0],
       animating: false,
     }
   }
 
-  anyMarkerNear(position, markers) {
-    const markerPositions = markers.map((marker) => this.getMarkerPosition(marker))
-    const current = this.getMarkerPosition(position)
+  componentWillReceiveProps(props) {
+    this.markers = this.getMarkers(props).map((marker) => {
+      return {
+        left: this.getMarkerPosition(marker, props),
+        text: this.lengthUnity(this.round(marker, props.decimals))
+      }
+    })
+  }
+
+  anyMarkerNear(position, markers, props = this.props) {
+    const markerPositions = markers.map((marker) => this.getMarkerPosition(marker, props))
+    const current = this.getMarkerPosition(position, props)
     const markerWidth = 53
 
     return markerPositions.filter((pos) => {
@@ -25,11 +35,11 @@ export default class MotionAnimation extends Motion {
     }).length > 0
   }
 
-  getMarkers() {
-    let markers = [this.startPosition(), this.endPosition(), 0]
-    this.getPositionData().forEach((objectData) => {
+  getMarkers(props = this.props) {
+    let markers = [this.startPosition(props), this.endPosition(props), 0]
+    this.getPositionData(props).forEach((objectData) => {
       objectData.forEach((data) => {
-        if(!this.anyMarkerNear(data.y, markers))
+        if(!this.anyMarkerNear(data.y, markers, props))
           markers.push(data.y)
       })
     })
@@ -37,12 +47,12 @@ export default class MotionAnimation extends Motion {
     return markers.sort()
   }
 
-  fixScale(value) {
-    return value + (this.startPosition() < 0 ? this.startPosition() * -1 : 0)
+  fixScale(value, props = this.props) {
+    return value + (this.startPosition(props) < 0 ? this.startPosition(props) * -1 : 0)
   }
 
-  getMarkerPosition(marker) {
-    return ((this.props.width - 80) * this.fixScale(marker)) / this.fixScale(this.endPosition()) + 20 - 25
+  getMarkerPosition(marker, props = this.props) {
+    return ((props.width - 80) * this.fixScale(marker, props)) / this.fixScale(this.endPosition(props), props) + 20 - 25
   }
 
   getObjectPosition(object, time) {
@@ -169,10 +179,10 @@ export default class MotionAnimation extends Motion {
           })}
         </div>
         <div className='motionMarkers'>
-          {this.getMarkers().map((marker, index) => {
+          {this.markers.map((marker, index) => {
             return (
-              <div key={`marker_${index}`} className='marker' style={{top: 0, left: this.getMarkerPosition(marker)}}>
-                {this.lengthUnity(this.round(marker, this.props.decimals))}
+              <div key={`marker_${index}`} className='marker' style={{top: 0, left: marker.left}}>
+                {marker.text}
               </div>
             )
           })}

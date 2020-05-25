@@ -12,8 +12,8 @@ export default class Motion extends Translatable {
     return invalids.length === 0
   }
 
-  getAvailableObjects() {
-    return this.props.objects.filter((obj) => obj.enabled)
+  getAvailableObjects(props = this.props) {
+    return props.objects.filter((obj) => obj.enabled)
   }
 
   timeInUnity(time) {
@@ -23,13 +23,13 @@ export default class Motion extends Translatable {
     return time
   }
 
-  getTimes() {
+  getTimes(props = this.props) {
     let times = [0],
       counter = 0,
-      iterations = Math.round(this.timeInUnity(parseInt(this.props.motionTime, 10)) / this.timeInUnity(parseInt(this.props.motionInterval, 10)))
+      iterations = Math.round(this.timeInUnity(parseInt(props.motionTime, 10)) / this.timeInUnity(parseInt(props.motionInterval, 10)))
 
     for (var i = 0; i < iterations; i++) {
-      counter = counter + this.timeInUnity(parseInt(this.props.motionInterval, 10))
+      counter = counter + this.timeInUnity(parseInt(props.motionInterval, 10))
       times.push(counter)
     }
 
@@ -48,9 +48,9 @@ export default class Motion extends Translatable {
     })
   }
 
-  getPositionData() {
-    return this.getAvailableObjects().map((object) => {
-      return this.getTimes().map((time) => {
+  getPositionData(props = this.props) {
+    return this.getAvailableObjects(props).map((object) => {
+      return this.getTimes(props).map((time) => {
         return {x: time, y: this.getPosition(object, time)}
       })
     })
@@ -123,10 +123,10 @@ export default class Motion extends Translatable {
     return `${value}m`
   }
 
-  getAllPositions() {
+  getAllPositions(props) {
     let positions = []
 
-    this.props.objects.forEach((object) => {
+    props.objects.forEach((object) => {
       this.getTimes().forEach((time) => {
         positions.push(this.getPosition(object, time))
       })
@@ -135,12 +135,12 @@ export default class Motion extends Translatable {
     return positions
   }
 
-  startPosition() {
-    return Math.min(...this.getAllPositions())
+  startPosition(props = this.props) {
+    return Math.min(...this.getAllPositions(props))
   }
 
-  endPosition() {
-    return Math.max(...this.getAllPositions())
+  endPosition(props = this.props) {
+    return Math.max(...this.getAllPositions(props))
   }
 
 }
