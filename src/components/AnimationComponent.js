@@ -1,7 +1,7 @@
 import React from 'react'
-import Motion from './Motion.js'
+import MotionComponent from './MotionComponent.js'
 
-export default class MotionAnimation extends Motion {
+export default class AnimationComponent extends MotionComponent {
 
   constructor(props) {
     super(props)

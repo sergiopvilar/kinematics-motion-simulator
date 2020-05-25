@@ -1,10 +1,10 @@
 import React from 'react'
 import RandomColor from 'randomcolor'
 import { Input, Dropdown } from 'semantic-ui-react'
-import Translatable from './Translatable.js'
-import Units from '../config/units.js'
+import Translatable from './TranslatableComponent.js'
+import Units from '../physics/units.js'
 
-export default class ObjectForm extends Translatable {
+export default class ObjectComponent extends Translatable {
 
   constructor(props) {
     super(props)

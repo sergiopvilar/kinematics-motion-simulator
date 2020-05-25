@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App';
+import App from './components/AppComponent';
 import * as serviceWorker from './serviceWorker';
 
 const defaultLanguage = window.location.hash !== '' ? decodeURI(window.location.hash).replace('#', '') : 'Português'

@@ -2,7 +2,7 @@ import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import labels from '../config/labels.json'
 
-export default class Translatable extends React.Component {
+export default class TranslatableComponent extends React.Component {
   get labels() {
     return labels[this.language]
   }

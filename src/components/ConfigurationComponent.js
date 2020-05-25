@@ -1,9 +1,9 @@
 import React from 'react'
 import { Checkbox, Dropdown } from 'semantic-ui-react'
-import Translatable from './Translatable.js'
-import Units from '../config/units.js'
+import TranslatableComponent from './TranslatableComponent.js'
+import Units from '../physics/units.js'
 
-export default class ChartConfiguration extends Translatable {
+export default class ConfigurationComponent extends TranslatableComponent {
 
   update(key, value) {
     const otherKey = key === 'motionTime' ? 'motionInterval' : 'motionTime'

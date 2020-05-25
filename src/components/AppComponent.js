@@ -1,11 +1,11 @@
 import React from 'react';
-import Translatable from './Translatable.js'
-import ObjectForm from './ObjectForm.js'
-import Charts from './Charts.js'
-import MotionAnimation from './MotionAnimation.js'
+import TranslatableComponent from './TranslatableComponent.js'
+import ObjectComponent from './ObjectComponent.js'
+import ChartComponent from './ChartComponent.js'
+import AnimationComponent from './AnimationComponent.js'
 import '../App.css';
 
-class MRUComponent extends Translatable {
+export default class AppComponent extends TranslatableComponent {
 
   constructor(props) {
     super(props)
@@ -76,19 +76,19 @@ class MRUComponent extends Translatable {
       <React.Fragment>
         { this.renderHeader() }
         <div className='container'>
-          <ObjectForm
+          <ObjectComponent
             language={this.state.language}
             objects={this.state.objects}
             onChange={({objects}) => this.setState({objects: objects})}
           />
           <div className='animacao'>
-            <MotionAnimation
+            <AnimationComponent
               {...this.motionProps()}
               width={this.props.width}
             />
           </div>
           <div className='movimento'>
-            <Charts
+            <ChartComponent
               speedUnity={this.state.speedUnity}
               onChange={(state) => this.validateAndSetState(state)}
               toggleObject={this.toggleObject.bind(this)}
@@ -104,5 +104,3 @@ class MRUComponent extends Translatable {
   }
 
 }
-
-export default MRUComponent;

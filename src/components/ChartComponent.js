@@ -1,9 +1,9 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2'
-import ChartConfiguration from './ChartConfiguration.js'
-import Motion from './Motion.js'
+import ConfigurationComponent from './ConfigurationComponent.js'
+import MotionComponent from './MotionComponent.js'
 
-export default class Charts extends Motion {
+export default class ChartComponent extends MotionComponent {
 
   getAxis(object) {
     return {
@@ -174,7 +174,7 @@ export default class Charts extends Motion {
     return (
       <React.Fragment>
         <h2 className='ui dividing header'>{this.labels.graficos}</h2>
-        <ChartConfiguration
+        <ConfigurationComponent
           motionInterval={this.props.motionInterval}
           motionTime={this.props.motionTime}
           onChange={this.props.onChange}

@@ -1,7 +1,7 @@
-import Translatable from './Translatable.js'
-import MotionObject from './MotionObject.js'
+import TranslatableComponent from './TranslatableComponent.js'
+import MotionObject from '../physics/MotionObject.js'
 
-export default class Motion extends Translatable {
+export default class MotionComponent extends TranslatableComponent {
 
   isDataValid() {
     const invalids = this.props.objects.filter((obj) => {
@@ -36,10 +36,6 @@ export default class Motion extends Translatable {
     return times
   }
 
-  hasAcceleration(acceleration) {
-    return (acceleration !== 0)
-  }
-
   getSpeedData() {
     return this.getAvailableObjects().map((object) => {
       return this.getTimes().map((time) => {
@@ -57,40 +53,15 @@ export default class Motion extends Translatable {
   }
 
   getSpeed(obj, time) {
-    const object = new MotionObject(obj)
-
-    if (!this.hasAcceleration(object.acceleration)) return object.startSpeed
-    return object.startSpeed + (object.acceleration * time)
-  }
-
-  finalPositionNoAcceleration(startPosition, velocidade, time) {
-    return startPosition + (velocidade * time)
-  }
-
-  finalPosition(startPosition, time, acceleration, startSpeed) {
-    let base = startPosition + startSpeed * time
-
-    if (acceleration > 0)
-      return base + (Math.abs(acceleration) * (time * time)) / 2
-    return base - (Math.abs(acceleration) * (time * time)) / 2
+    return new MotionObject(obj).getSpeed(time)
   }
 
   getPosition(obj, time) {
-    const object = new MotionObject(obj)
-
-    if (!this.hasAcceleration(object.acceleration))
-      return this.finalPositionNoAcceleration(object.startPosition, object.startSpeed, time)
-    return this.finalPosition(object.startPosition, time, object.acceleration, object.startSpeed)
+    return new MotionObject(obj).getPosition(time)
   }
 
   getSpeedPerPosition(obj, position) {
-    const object = new MotionObject(obj)
-    const deltaPosition = position - (obj.startPosition)
-
-    if (!this.hasAcceleration(object.acceleration))
-      return object.startSpeed
-
-    return Math.sqrt(Math.pow(object.startSpeed, 2) + (2 * object.acceleration * deltaPosition))
+    return new MotionObject(obj).getSpeedByPosition(position)
   }
 
   round(value, decimals = this.props.decimals) {
