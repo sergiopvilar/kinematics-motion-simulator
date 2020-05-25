@@ -2,7 +2,7 @@ import React from 'react'
 import RandomColor from 'randomcolor'
 import { Input, Dropdown } from 'semantic-ui-react'
 import Translatable from './TranslatableComponent.js'
-import Units from '../physics/units.js'
+import Units from '../config/units.js'
 
 export default class ObjectComponent extends Translatable {
 

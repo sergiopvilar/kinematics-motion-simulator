@@ -1,4 +1,4 @@
-import labels from '../config/labels.json'
+import labels from './labels.json'
 
 const label = (language, key) => {
   return labels[language][key]

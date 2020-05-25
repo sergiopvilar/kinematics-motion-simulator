@@ -1,7 +1,7 @@
 import React from 'react'
 import { Checkbox, Dropdown } from 'semantic-ui-react'
 import TranslatableComponent from './TranslatableComponent.js'
-import Units from '../physics/units.js'
+import Units from '../config/units.js'
 
 export default class ConfigurationComponent extends TranslatableComponent {
 
