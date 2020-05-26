@@ -3,7 +3,7 @@ import TranslatableComponent from './TranslatableComponent.js'
 import ObjectComponent from './ObjectComponent.js'
 import ChartComponent from './ChartComponent.js'
 import AnimationComponent from './AnimationComponent.js'
-import '../App.css';
+import '../assets/App.css';
 
 export default class AppComponent extends TranslatableComponent {
 
