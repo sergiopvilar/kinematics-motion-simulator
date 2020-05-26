@@ -7,7 +7,8 @@ export default class MotionComponent extends TranslatableComponent {
   isDataValid() {
     const invalids = this.props.objects.filter((obj) => {
       const object = new MotionObject(obj)
-      return isNaN(object.acceleration) || isNaN(object.startSpeed) || isNaN(object.startPosition)
+      return isNaN(object.acceleration) || isNaN(object.startSpeed) || isNaN(object.startPosition) ||
+             (object.acceleration === 0 && object.startSpeed === 0)
     })
 
     return invalids.length === 0
