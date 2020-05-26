@@ -31,7 +31,7 @@ export default class UnitConverter {
 
   // Chooses dinamically a length unit based on the value provided
   static adaptiveLenghtUnitFor(value) {
-    if(value > 1000) return 'km'
+    if(value >= 1000) return 'km'
     return 'm'
   }
 
