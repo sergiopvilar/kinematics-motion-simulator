@@ -1,5 +1,7 @@
 # Kinematics Study Charts Simulator
 
+[![Build Status](https://travis-ci.org/sergiopvilar/kinematics-motion-simulator.svg?branch=master)](https://travis-ci.org/sergiopvilar/kinematics-motion-simulator)
+
 A simulator kinematics simulator built using React with the main goal the study of uniform rectilinear motion and uniformly accelerated rectilinear motion with demonstration of multiple objects.
 
 ## Dependencies
