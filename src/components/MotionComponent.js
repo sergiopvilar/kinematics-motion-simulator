@@ -69,7 +69,7 @@ export default class MotionComponent extends TranslatableComponent {
 
   timeUnity(value) {
     const unit = this.props.timeUnity
-    const sufixUnit = unit === 'adaptive' ? UnitConverter.adaptiveLenghtUnitFor(value) : unit
+    const sufixUnit = unit === 'adaptive' ? UnitConverter.adaptiveTimeUnitFor(value) : unit
 
     return `${this.round(UnitConverter.timeTo(unit, value))}${sufixUnit}`
   }
